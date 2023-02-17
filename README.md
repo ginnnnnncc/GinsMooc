@@ -1,46 +1,36 @@
-# GinsMooc
+# 简介
 
-This template should help get you started developing with Vue 3 in Vite.
+实现对于中国大学MOOC的
+- 非在线测评题的自动答案查询，包括单选题、多选题、判断题、填空题、简答题，支持测验与作业及考试
+- 互评阶段的自动评分、自动点评
 
-## Recommended IDE Setup
+下载地址：[https://ginnnnnn.top/download/GinsMoocExtension.zip](https://ginnnnnn.top/download/GinsMoocExtension.zip)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+# 功能介绍
 
-## Type Support for `.vue` Imports in TS
+在测试的准备页面，将会自动检查是否准备就绪，若为否将自动更新课程
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+![](/public/extension-updating.png)
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+进入测验后，将显示“获取答案”按钮，点击即可
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+![](/public/extension-single-choice.png)
+![](/public/extension-multiple-choice.png)
+![](/public/extension-completion.png)
+![](/public/extension-homework.png)
 
-## Customize configuration
+作业的互评阶段支持自动评分、自动点评（暂无图）
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+# 安装介绍
 
-## Project Setup
+下载安装包后，将其解压至文件夹内
 
-```sh
-npm install
-```
+在浏览器地址栏中输入`edge://extensions`（谷歌浏览器为`chrome://extensions`）
 
-### Compile and Hot-Reload for Development
+打开开发者模式
 
-```sh
-npm run dev
-```
+![](/public/extension-developer-mode.png)
 
-### Type-Check, Compile and Minify for Production
+点击“加载解压缩的扩展”，选择刚刚解压到的文件夹，即可开始使用
 
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+![](/public/extension-load-decompression.png)

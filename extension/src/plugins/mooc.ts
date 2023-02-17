@@ -2,12 +2,11 @@ import type { quiz, option } from "@/type/mooc"
 import { sleep } from "./tool"
 
 const getQuizQuestionKeys = () => {
-    const [qidList, titleList] = [new Array<number>(), new Array<string>()]
-    const choices = document.getElementsByClassName("m-choiceQuestion u-questionItem examMode")
+    const [oidList, titleList] = [new Array<number>(), new Array<string>()]
+    const choices = document.querySelectorAll('input[id^="op_"]')
     for (let i = 0; i < choices.length; i++) {
-        const questionNode = choices.item(i) as HTMLDivElement
-        const optionNode = questionNode.querySelector("input") as HTMLInputElement
-        qidList.push(Number.parseInt(optionNode.name.slice(3, -13)))
+        const choice = choices.item(i) as HTMLInputElement
+        oidList.push(Number.parseInt(choice.id.slice(3, -13)))
     }
     const completions = document.getElementsByClassName("m-FillBlank examMode u-questionItem")
     for (let i = 0; i < completions.length; i++) {
@@ -15,17 +14,13 @@ const getQuizQuestionKeys = () => {
         const titleNode = questionNode.querySelector(".j-richTxt") as HTMLDivElement
         titleList.push(titleNode.innerText)
     }
-    return { qidList, titleList }
+    return { oidList, titleList }
 }
 
-const setQuizAnswer = (choiceAns: Object, completionAns: Object) => {
-    for (const [key, val] of Object.entries(choiceAns) as [string, quiz][]) {
-        for (const option of val.optionList as option[]) {
-            if (option.answer) {
-                const node = document.querySelector(`input[id^="op_${option.id}"]`) as HTMLInputElement
-                node.classList.add("gin-answer")
-            }
-        }
+const setQuizAnswer = (choiceAns: number[], completionAns: Object) => {
+    for (const id of choiceAns) {
+        const node = document.querySelector(`input[id^="op_${id}"]`) as HTMLInputElement
+        node.classList.add("gin-answer")
     }
     const completions = document.getElementsByClassName("m-FillBlank examMode u-questionItem")
     for (let i = 0; i < completions.length; i++) {

@@ -13,22 +13,22 @@ type Response<T = any> = {
 
 const apiInfo = {
     'checkTestExist': {
-        url: '/mooc/api/test/:tid',
+        url: '/mooc/test/:tid',
         method: 'GET',
         token: false
     },
     'addCourse': {
-        url: '/mooc/api/course/:cid',
+        url: '/mooc/course/:cid',
         method: 'POST',
         token: true
     },
     'selectQustion': {
-        url: '/mooc/api/test/:tid',
+        url: '/mooc/test/:tid',
         method: 'POST',
         token: false
     },
     'getAnnouncement': {
-        url: '/mooc/api/announcement',
+        url: '/mooc/announcement',
         method: 'GET',
         token: false
     }
@@ -45,7 +45,7 @@ export interface ApiResponseType {
         total: number
     }>,
     'selectQustion': Response<{
-        choiceAns?: Object,
+        choiceAns?: number[],
         completionAns?: Object,
         homeworkAns?: Object
     }>,

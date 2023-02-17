@@ -70,6 +70,11 @@ const apiInfo = {
         url: '/mooc/test/:tid',
         method: 'GET',
         token: false
+    },
+    'getAnnouncement': {
+        url: '/mooc/announcement',
+        method: 'GET',
+        token: false
     }
 }
 
@@ -88,7 +93,8 @@ export interface ApiResponseType {
         total: number
     }>,
     'getCourseDetail': Response<courseDetail>,
-    'getTestDetail': Response<testDetail>
+    'getTestDetail': Response<testDetail>,
+    'getAnnouncement': Response<string>
 }
 
 export interface ApiRequestType {
@@ -110,7 +116,8 @@ export interface ApiRequestType {
             page: number | string,
             search?: string
         }
-    }
+    },
+    'getAnnouncement': RequestType
 }
 
 export default apiInfo

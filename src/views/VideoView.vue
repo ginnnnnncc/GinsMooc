@@ -44,7 +44,6 @@ const setApiUrl = (url: string) => {
                 v-if="apiUrl && videoUrl"
                 :src="src"
                 height="675px"
-                width="1575px"
                 frameborder="0"
                 allowfullscreen="true"
             ></iframe>
@@ -76,7 +75,6 @@ const setApiUrl = (url: string) => {
 .video-mask {
     padding: 0;
     height: 675px;
-    width: 1575px;
     background-color: var(--el-empty-fill-color-3);
 }
 .api-item {

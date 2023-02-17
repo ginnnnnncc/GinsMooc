@@ -6,7 +6,7 @@ import jsSHA from "jssha"
 import apiInfo from "../type/api"
 import axios from './axios/axiosConfig'
 
-const baseUrl = "https://ginnnnnn.top"
+const baseUrl = "https://ginnnnnn.top/api"
 
 async function apiAccess<T extends ApiKeyType>(api: T): Promise<ApiResponseType[T]>
 async function apiAccess<T extends ApiKeyType>(api: T, params: ApiRequestType[T]['params'], data: ApiRequestType[T]['data']): Promise<ApiResponseType[T]>

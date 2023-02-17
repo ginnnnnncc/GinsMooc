@@ -14,9 +14,8 @@
     "content_scripts": [
         {
             "matches": ["https://www.icourse163.org/*learn/*?tid=*"],
-            "js": ["content-scripts/index-46379746.js"],
+            "js": ["content-scripts/index-0eaaeca2.js"],
             "run_at": "document_end"
         }
-    ],
-    "update_url": "https://ginnnnnn.top/mooc/extension/updates.xml"
+    ]
 }

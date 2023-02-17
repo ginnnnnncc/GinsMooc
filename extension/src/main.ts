@@ -11,13 +11,15 @@ let testId: string | null = null
 const [analysis, prepare, examlist] = [refList.add(false), refList.add(false), refList.add(false)]
 
 const getAnswer = async () => {
+    stateTips.innerText = "正在获取答案，请稍后..."
     if (testType.get() === "quiz") {
         const answers = await apiAccess("selectQustion", { tid: testId as string }, getQuizQuestionKeys())
-        setQuizAnswer(answers.data.choiceAns as Object, answers.data.completionAns as Object)
+        setQuizAnswer(answers.data.choiceAns as number[], answers.data.completionAns as Object)
     } else if (testType.get() === "homework") {
         const answers = await apiAccess("selectQustion", { tid: testId as string }, {})
         setHomeworkAnswer(answers.data.homeworkAns as Object)
     }
+    stateTips.innerText = ""
 }
 
 const styleNode = document.createElement("style")

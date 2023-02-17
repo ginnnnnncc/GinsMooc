@@ -155,9 +155,9 @@ const courseFilter = () => {
     </ElDrawer>
     <ElDialog
         v-model="newCourseDialogVisible"
-        :close-on-click-modal="newCourseDialogLocked"
-        :close-on-press-escape="newCourseDialogLocked"
-        :show-close="newCourseDialogLocked"
+        :close-on-click-modal="!newCourseDialogLocked"
+        :close-on-press-escape="!newCourseDialogLocked"
+        :show-close="!newCourseDialogLocked"
     >
         <template #header><span>添加新课程</span></template>
         <ElRow :gutter="16">
@@ -182,6 +182,7 @@ const courseFilter = () => {
                 ></ElProgress>
             </ElCol>
         </ElRow>
+        <ElImage src="/new-course-help.png" style="margin-top: 8px; box-shadow: var(--el-box-shadow-light)"></ElImage>
     </ElDialog>
 </template>
 

@@ -11,6 +11,9 @@ let testId: string | null = null
 const [analysis, prepare, examlist] = [refList.add(false), refList.add(false), refList.add(false)]
 
 const getAnswer = async () => {
+    if (stateTips.innerText === "正在获取答案，请稍后...") {
+        return
+    }
     stateTips.innerText = "正在获取答案，请稍后..."
     if (testType.get() === "quiz") {
         const answers = await apiAccess("selectQustion", { tid: testId as string }, getQuizQuestionKeys())

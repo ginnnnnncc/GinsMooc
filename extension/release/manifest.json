@@ -14,7 +14,7 @@
     "content_scripts": [
         {
             "matches": ["https://www.icourse163.org/*learn/*?tid=*"],
-            "js": ["content-scripts/index-0eaaeca2.js"],
+            "js": ["content-scripts/index-d96f628c.js"],
             "run_at": "document_end"
         }
     ]

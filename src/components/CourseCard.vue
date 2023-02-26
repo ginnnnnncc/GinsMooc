@@ -13,7 +13,7 @@ const emit = defineEmits<{
 
 <template>
     <li :class="{ 'course-card': true }" @click="$emit('click', course, $event)">
-        <ElImage :src="course.imageUrl" class="course-card__img" lazy />
+        <ElImage :src="course.imageUrl" class="course-card__img" lazy></ElImage>
         <div class="course-card__info">
             <div class="course-card__info-name">{{ course.name }}</div>
             <div class="course-card__info-school">{{ course.school }}</div>
@@ -49,6 +49,7 @@ const emit = defineEmits<{
 
 .course-card__img {
     height: 48px;
+    width: 85px;
     border-radius: 8px;
     margin-right: 16px;
 }
@@ -67,6 +68,9 @@ const emit = defineEmits<{
     flex: 1;
     font-size: 18px;
     color: var(--el-text-color-primary);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .course-card__info-school {

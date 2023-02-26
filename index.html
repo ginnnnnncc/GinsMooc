@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="icon" href="/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="referrer" content="no-referrer">
+    <!-- <meta name="referrer" content="no-referrer"> -->
     <script type="module" src="/src/main.ts"></script>
     <title>Gins</title>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLRC1SRM7Y"></script>
@@ -17,13 +17,21 @@
     </script>
     <script>
         var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?803f8581ce82c43a7f51eab256958890";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?803f8581ce82c43a7f51eab256958890";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
         })();
-        </script>        
+    </script>
+    <script>
+        (function () {
+            var meta = document.createElement('meta')
+            meta.content = 'no-referrer'
+            meta.name = 'referrer'
+            document.getElementsByTagName('head')[0].appendChild(meta)
+        })()
+    </script>
 </head>
 
 <body>

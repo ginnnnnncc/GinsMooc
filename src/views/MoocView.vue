@@ -23,6 +23,7 @@ const mainHeaderTitle = computed(() => {
     }
     return ret
 })
+const emptyContent = computed(() => !(currentCourse.value.id || currentTest.value.id))
 
 const updateCurrentCourse = (course: course) => (currentCourse.value = course)
 const updateCurrentTest = (test: test) => (currentTest.value = test)
@@ -50,7 +51,7 @@ watch(
 
 <template>
     <ElContainer>
-        <ElAside class="mooc-aside hidden-lg-only hidden-sm-and-down" width="355px">
+        <ElAside class="mooc-aside" width="355px" :class="emptyContent ? '' : 'hidden-lg-only hidden-sm-and-down'">
             <Suspense>
                 <MoocAside :current-course="currentCourse" ref="aside"></MoocAside>
             </Suspense>
@@ -64,7 +65,8 @@ watch(
                         @click="aside?.showDrawer"
                         @mouseenter="menuBtnColor++"
                         @mouseleave="menuBtnColor++"
-                        style="cursor: pointer; padding-right: 8px"
+                        style="cursor: pointer; padding-right: 8px;"
+                        :style="emptyContent ? 'display: none;' : ''"
                         class="hidden-xl-only hidden-md-only"
                     >
                         <Menu></Menu>

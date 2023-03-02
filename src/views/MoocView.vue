@@ -45,6 +45,7 @@ watch(
             updateCurrentCourse(<course>new Object())
             updateCurrentTest(<test>new Object())
         }
+        quizQuery.value = ""
     }
 )
 </script>

@@ -42,7 +42,7 @@ const openArcaea = () => window.open("/Arcaea_2-1.png")
         <ElDivider></ElDivider>
         <div class="game-body">
             <div class="token">
-                Wzg2LCA1MCwgODUsIDEyMCwgODksIDQ4LCA1NywgMTE2LCA5MCwgODYsIDU3LCA4NSwgNzcsIDcwLCA1NywgMTA2LCAxMDAsIDcxLCA4OSwgMTA0XQ
+                Wzg3LCAxMDEsIDQ5LCA5OSwgNzksIDEwOSwgMTAxLCA5NSwgODQsIDQ4LCA5NSwgOTksIDExNiwgMTAyLCAzM10
             </div>
             <div>
                 <ElInput

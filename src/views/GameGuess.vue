@@ -55,6 +55,9 @@ const onRefreshClick = async () => {
         <div class="game-desc">
             
         </div>
+        <div class="game-code">
+            如果需要源代码，请看：<ElLink href="/guess.java">guess.java</ElLink>
+        </div>
         <div class="game-info">你目前已经猜对了 {{ passed }} 次，其中 {{ talented }} 次是一次性猜对的。</div>
         <ElDivider></ElDivider>
         <div class="game-body">

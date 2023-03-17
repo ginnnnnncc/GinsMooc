@@ -131,10 +131,6 @@ i,
 p {
     margin: 0 !important;
 }
-img {
-    max-width: 100%;
-    height: auto;
-}
 ::selection {
     background-color: var(--el-color-primary-light-3);
     color: var(--el-color-white);

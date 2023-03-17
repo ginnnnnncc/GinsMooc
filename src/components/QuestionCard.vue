@@ -58,6 +58,10 @@ const isOnlineJudge = (data: quiz | homework): data is homework => data.type ===
     color: var(--el-text-color-primary);
     line-height: 1.5;
 }
+.question-card :deep(.question-card-body img) {
+    max-width: 100%;
+    height: auto;
+}
 .question-card :deep(.el-checkbox__label), .question-card :deep(.el-radio__label) {
     white-space: normal;
     line-height: 1.5;

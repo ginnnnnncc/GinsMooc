@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import { Extension } from "@/components/icon"
-import { useApiAccess } from "@/plugins/apiAccess"
 
-const apiAccess = useApiAccess()
 const defaultColor = "var(--el-color-primary-dark-2)"
 const hoverColor = "var(--el-color-primary)"
 const color = [defaultColor, hoverColor]
@@ -14,7 +12,7 @@ const extensionCollapseValue = ref("1")
 
 <template>
     <div class="mooc-header">
-        <div class="mooc-notice"></div>
+        <div class="mooc-notice">插件已经更新，上学期的已经不能使用，请重新下载哦~</div>
         <div class="mooc-function">
             <ElIcon
                 :color="color[extensionBtnColor % 2]"

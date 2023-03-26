@@ -19,7 +19,11 @@
 ![](/public/extension-completion.png)
 ![](/public/extension-homework.png)
 
-作业的互评阶段支持自动评分、自动点评（暂无图）
+作业的互评阶段支持自动评分、自动点评
+
+![](/public/extension-auto-evaluate-1.png)
+![](/public/extension-auto-evaluate-2.png)
+
 
 # 安装介绍
 

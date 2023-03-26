@@ -41,7 +41,9 @@ const extensionCollapseValue = ref("1")
                 <ElImage class="extension-image" src="/extension-multiple-choice.png"></ElImage>
                 <ElImage class="extension-image" src="/extension-completion.png"></ElImage>
                 <ElImage class="extension-image" src="/extension-homework.png"></ElImage>
-                <p>作业的互评阶段支持自动评分、自动点评（暂无图）</p>
+                <p>作业的互评阶段支持自动评分、自动点评</p>
+                <ElImage class="extension-image" src="/extension-auto-evaluate-1.png"></ElImage>
+                <ElImage class="extension-image" src="/extension-auto-evaluate-2.png"></ElImage>
             </ElCollapseItem>
             <ElCollapseItem title="安装介绍" name="3">
                 <p>下载安装包后，将其解压至文件夹内</p>

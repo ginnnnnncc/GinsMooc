@@ -1,35 +1,35 @@
 import type { homework, quiz } from "./mooc"
 
 type RequestType = {
-    params?: Object,
+    params?: Object
     data?: Object
 }
 
 type Response<T = any> = {
-    status: number,
-    data: T,
+    status: number
+    data: T
     msg: string
 }
 
 const apiInfo = {
-    'checkTestExist': {
-        url: '/mooc/test/:tid',
-        method: 'GET',
+    checkTestExist: {
+        url: "/mooc/test/:tid",
+        method: "GET",
         token: false
     },
-    'addCourse': {
-        url: '/mooc/course/:cid',
-        method: 'POST',
+    addCourse: {
+        url: "/mooc/course/:cid",
+        method: "POST",
         token: true
     },
-    'selectQustion': {
-        url: '/mooc/test/:tid',
-        method: 'POST',
+    selectQustion: {
+        url: "/mooc/test/:tid",
+        method: "POST",
         token: false
     },
-    'getAnnouncement': {
-        url: '/mooc/announcement',
-        method: 'GET',
+    getAnnouncement: {
+        url: "/mooc/announcement",
+        method: "GET",
         token: false
     }
 }
@@ -37,36 +37,38 @@ const apiInfo = {
 export type ApiKeyType = keyof typeof apiInfo
 
 export interface ApiResponseType {
-    'checkTestExist': Response<{
+    checkTestExist: Response<{
         existing: boolean
-    }>,
-    'addCourse': Response<{
-        finished: number,
+    }>
+    addCourse: Response<{
+        finished: number
         total: number
-    }>,
-    'selectQustion': Response<{
-        choiceAns?: number[],
-        completionAns?: Object,
+    }>
+    selectQustion: Response<{
+        choiceAns?: number[]
+        completionAns?: Object
         homeworkAns?: Object
-    }>,
-    'getAnnouncement': Response<string>
+    }>
+    getAnnouncement: Response<string>
 }
 
 export interface ApiRequestType {
-    'checkTestExist': RequestType & {
-        params: { tid: number | string, type: "isExisting" }
-    },
-    'addCourse': RequestType & {
+    checkTestExist: RequestType & {
+        params: { tid: number | string; type: "isExisting" }
+    }
+    addCourse: RequestType & {
         params: { cid: number | string }
-    },
-    'selectQustion': RequestType & {
-        params: { tid: number | string },
+    }
+    selectQustion: RequestType & {
+        params: { tid: number | string }
         data: {
-            qidList?: number[],
+            qidList?: number[]
             titleList?: string[]
         }
-    },
-    'getAnnouncement': RequestType
+    }
+    getAnnouncement: RequestType & {
+        params: { version: string }
+    }
 }
 
 export default apiInfo

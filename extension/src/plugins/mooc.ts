@@ -1,4 +1,4 @@
-import type { quiz, option } from "@/type/mooc"
+import type { quiz, option } from "../type/mooc"
 import { sleep } from "./tool"
 
 const getQuizQuestionKeys = () => {
@@ -60,8 +60,7 @@ const setHomeworkAnswer = (homeworkAns: Object) => {
 const autoEvaluate = () => {
     const analysis = document.getElementsByClassName("u-questionItem u-analysisQuestion analysisMode")
     for (let i = 0; i < analysis.length; i++) {
-        const radio = analysis.item(i)?.querySelector(".s")?.querySelector("label:last")
-            ?.querySelector("input") as HTMLInputElement
+        const radio = analysis.item(i)?.querySelector(".s")?.lastElementChild?.querySelector("input") as HTMLInputElement
         radio.checked = true
     }
 }

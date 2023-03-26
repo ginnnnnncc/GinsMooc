@@ -14,14 +14,8 @@ const extensionCollapseValue = ref("1")
     <div class="mooc-header">
         <div class="mooc-notice">插件已经更新，上学期的已经不能使用，请重新下载哦~</div>
         <div class="mooc-function">
-            <ElIcon
-                :color="color[extensionBtnColor % 2]"
-                :size="25"
-                @mouseenter="extensionBtnColor++"
-                @mouseleave="extensionBtnColor++"
-                @click="extensionDialogVisible = true"
-                style="cursor: pointer"
-            >
+            <ElIcon :color="color[extensionBtnColor % 2]" :size="25" @mouseenter="extensionBtnColor++"
+                @mouseleave="extensionBtnColor++" @click="extensionDialogVisible = true" style="cursor: pointer">
                 <Extension />
             </ElIcon>
         </div>
@@ -35,7 +29,9 @@ const extensionCollapseValue = ref("1")
                     <li>非在线测评题的自动答案查询，包括单选题、多选题、判断题、填空题、简答题，支持测验与作业及考试</li>
                     <li>互评阶段的自动评分、自动点评</li>
                 </ul>
-                <p>下载地址：<ElLink href="/download/GinsMoocExtension.zip">https://ginnnnnn.top/download/GinsMoocExtension.zip</ElLink></p>
+                <p>下载地址：<ElLink href="/download/GinsMoocExtension_v2.0.2.zip">https://ginnnnnn.top/download/GinsMoocExtension.zip
+                    </ElLink>
+                </p>
             </ElCollapseItem>
             <ElCollapseItem title="功能介绍" name="2">
                 <p>在测试的准备页面，将会自动检查是否准备就绪，若为否将自动更新课程</p>
@@ -55,7 +51,7 @@ const extensionCollapseValue = ref("1")
                 <p>点击“加载解压缩的扩展”，选择刚刚解压到的文件夹，即可开始使用</p>
                 <ElImage class="extension-image" src="/extension-load-decompression.png"></ElImage>
             </ElCollapseItem>
-        </ElCollapse>        
+        </ElCollapse>
     </ElDialog>
 </template>
 
@@ -64,12 +60,14 @@ const extensionCollapseValue = ref("1")
     display: flex;
     align-items: center;
 }
+
 .mooc-notice {
     flex: 1;
     text-align: center;
     color: var(--el-color-primary);
     font-size: 14px;
 }
+
 .mooc-function {
     flex: 0 !important;
     width: min-content;
@@ -78,6 +76,7 @@ const extensionCollapseValue = ref("1")
     justify-content: flex-end;
     padding-right: 8px;
 }
+
 .extension-image {
     box-shadow: var(--el-box-shadow-light);
     margin: 8px 0;

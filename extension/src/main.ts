@@ -49,7 +49,7 @@ wrapperNode.classList.add("m-learnbox")
 document.querySelector(".g-mn1c")?.prepend(wrapperNode)
 
 const setNotice = async () => {
-    const announcement = (await apiAccess("getAnnouncement")).data
+    const announcement = (await apiAccess("getAnnouncement", { version: "2.0.2" }, undefined)).data
     const noticeNode = document.createElement("div")
     noticeNode.innerHTML = announcement === "无" ? "" : announcement
     wrapperNode.prepend(noticeNode)
@@ -98,15 +98,15 @@ document.getElementById("courseLearn-inner-box")?.addEventListener("DOMNodeInser
     const prepareNode = document.querySelector(".j-prepare.prepare")
     prepare.set(
         (prepareNode && !prepareNode.classList.contains("f-dn")) ||
-        document.querySelector(".j-homework-paper") !== null ||
-        examlist.get()
+            document.querySelector(".j-homework-paper") !== null ||
+            examlist.get()
     )
     analysis.set(document.querySelector(".u-questionItem.u-analysisQuestion.analysisMode") !== null)
 })
 
 const onTestChange = async () => {
     console.log("onTestChange", testType.get(), prepare.get(), examlist.get(), testId)
-    if ((testType.get() === 'quiz' && !prepare.get()) || testType.get() === 'homework') {
+    if ((testType.get() === "quiz" && !prepare.get()) || testType.get() === "homework") {
         getAnswerBtn.classList.remove("f-dn")
     } else {
         getAnswerBtn.classList.add("f-dn")
@@ -150,5 +150,6 @@ analysis.addEventListenr("change", onModeChange)
 prepare.addEventListenr("change", onTestChange)
 testType.addEventListenr("change", onTestChange)
 newCourseState.addEventListenr("set", () => {
-    stateTips.innerText = newCourseState.get() === -1 ? (prepare.get() ? "已准备就绪" : "") : `正在更新课程...${newCourseState.get()}%`
+    stateTips.innerText =
+        newCourseState.get() === -1 ? (prepare.get() ? "已准备就绪" : "") : `正在更新课程...${newCourseState.get()}%`
 })

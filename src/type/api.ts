@@ -1,79 +1,79 @@
 import type { course, homework, quiz, test } from "./mooc"
 
 type RequestType = {
-    params?: Object,
+    params?: Object
     data?: Object
 }
 
 type Response<T = any> = {
-    status: number,
-    data: T,
+    status: number
+    data: T
     msg: string
 }
 
 interface courseDetail extends Object {
-    course: course,
+    course: course
     testList: test[]
 }
 
 interface testDetail extends Object {
-    course: course,
-    test: test,
-    questionList: quiz[] | homework[],
+    course: course
+    test: test
+    questionList: quiz[] | homework[]
     totalPages: number
 }
 
 interface gameDetail extends Object {
     info: {
-        passed: number,
+        passed: number
         talented: number
-    },
+    }
     state: {
-        less: boolean,
-        more: boolean,
+        less: boolean
+        more: boolean
         reward: boolean
     }
 }
 
 const apiInfo = {
-    'guessGame': {
-        url: '/game/guess',
-        method: 'POST',
+    guessGame: {
+        url: "/game/guess",
+        method: "POST",
         token: true
     },
-    'getGameInfo': {
-        url: '/game/guess',
-        method: 'GET',
+    getGameInfo: {
+        url: "/game/guess",
+        method: "GET",
         token: true
     },
-    'refreshGameNumber': {
-        url: '/game/guess',
-        method: 'PUT',
+    refreshGameNumber: {
+        url: "/game/guess",
+        method: "PUT",
         token: true
     },
-    'getCourseList': {
-        url: '/mooc/course',
-        method: 'GET',
+    getCourseList: {
+        url: "/mooc/course",
+        method: "GET",
         token: false
     },
-    'addCourse': {
-        url: '/mooc/course/:cid',
-        method: 'POST',
+    addCourse: {
+        url: "/mooc/course/:cid",
+        method: "POST",
         token: true
     },
-    'getCourseDetail': {
-        url: '/mooc/course/:cid',
-        method: 'GET',
+    getCourseDetail: {
+        url: "/mooc/course/:cid",
+        method: "GET",
         token: false
     },
-    'getTestDetail': {
-        url: '/mooc/test/:tid',
-        method: 'GET',
+    getTestDetail: {
+        url: "/mooc/test/:tid",
+        method: "GET",
         token: false
     },
-    'getAnnouncement': {
-        url: '/mooc/announcement',
-        method: 'GET',
+    getAnnouncement: {
+        url: "/mooc/announcement",
+        method: "GET",
         token: false
     }
 }
@@ -81,43 +81,43 @@ const apiInfo = {
 export type ApiKeyType = keyof typeof apiInfo
 
 export interface ApiResponseType {
-    'guessGame': Response<gameDetail>,
-    'getGameInfo': Response<{
-        passed: number,
+    guessGame: Response<gameDetail>
+    getGameInfo: Response<{
+        passed: number
         talented: number
-    }>,
-    'refreshGameNumber': Response<null>,
-    'getCourseList': Response<course[]>,
-    'addCourse': Response<{
-        finished: number,
+    }>
+    refreshGameNumber: Response<null>
+    getCourseList: Response<course[]>
+    addCourse: Response<{
+        finished: number
         total: number
-    }>,
-    'getCourseDetail': Response<courseDetail>,
-    'getTestDetail': Response<testDetail>,
-    'getAnnouncement': Response<string>
+    }>
+    getCourseDetail: Response<courseDetail>
+    getTestDetail: Response<testDetail>
+    getAnnouncement: Response<string>
 }
 
 export interface ApiRequestType {
-    'guessGame': RequestType & {
+    guessGame: RequestType & {
         data: { guess: number | string }
-    },
-    'getGameInfo': RequestType,
-    'refreshGameNumber': RequestType,
-    'getCourseList': RequestType,
-    'addCourse': RequestType & {
+    }
+    getGameInfo: RequestType
+    refreshGameNumber: RequestType
+    getCourseList: RequestType
+    addCourse: RequestType & {
         params: { cid: number | string }
-    },
-    'getCourseDetail': RequestType & {
+    }
+    getCourseDetail: RequestType & {
         params: { cid: number | string }
-    },
-    'getTestDetail': RequestType & {
+    }
+    getTestDetail: RequestType & {
         params: {
-            tid: number | string,
-            page: number | string,
+            tid: number | string
+            page: number | string
             search?: string
         }
-    },
-    'getAnnouncement': RequestType
+    }
+    getAnnouncement: RequestType
 }
 
 export default apiInfo

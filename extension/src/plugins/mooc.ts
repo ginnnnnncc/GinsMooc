@@ -6,7 +6,7 @@ const getQuizQuestionKeys = () => {
     const choices = document.querySelectorAll('input[id^="op_"]')
     for (let i = 0; i < choices.length; i++) {
         const choice = choices.item(i) as HTMLInputElement
-        oidList.push(Number.parseInt(choice.id.slice(3, -13)))
+        oidList.push(Number.parseInt(choice.id.split("_")[2].slice(0, -13)))
     }
     const completions = document.getElementsByClassName("m-FillBlank examMode u-questionItem")
     for (let i = 0; i < completions.length; i++) {
@@ -19,7 +19,7 @@ const getQuizQuestionKeys = () => {
 
 const setQuizAnswer = (choiceAns: number[], completionAns: Object) => {
     for (const id of choiceAns) {
-        const node = document.querySelector(`input[id^="op_${id}"]`) as HTMLInputElement
+        const node = document.querySelector(`input[id*="_${id}"]`) as HTMLInputElement
         node.classList.add("gin-answer")
     }
     const completions = document.getElementsByClassName("m-FillBlank examMode u-questionItem")
@@ -60,8 +60,11 @@ const setHomeworkAnswer = (homeworkAns: Object) => {
 const autoEvaluate = () => {
     const analysis = document.getElementsByClassName("u-questionItem u-analysisQuestion analysisMode")
     for (let i = 0; i < analysis.length; i++) {
-        const radio = analysis.item(i)?.querySelector(".s")?.lastElementChild?.querySelector("input") as HTMLInputElement
-        radio.checked = true
+        const radioGroup = analysis.item(i)?.getElementsByClassName("s") as HTMLCollection
+        for (let j = 0; j < radioGroup.length; j++) {
+            const radio = radioGroup.item(j)?.lastElementChild?.querySelector("input") as HTMLInputElement
+            radio.checked = true
+        }
     }
 }
 
@@ -72,7 +75,7 @@ const autoComment = () => {
         const textarea = analysis.item(i)?.querySelector("textarea") as HTMLTextAreaElement
         textarea.value = "666"
     }
-    window.scroll({ top: document.documentElement.clientHeight, behavior: "smooth" })
+    window.scroll({ top: document.documentElement.scrollHeight, behavior: "smooth" })
 }
 
 export { getQuizQuestionKeys, setHomeworkAnswer, setQuizAnswer, autoEvaluate, autoComment }

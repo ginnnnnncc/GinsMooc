@@ -27,6 +27,9 @@ async function apiAccess<T extends ApiKeyType>(api: T, params?: ApiRequestType[T
                     }
                 }
             }
+            if (url.indexOf("http") != 0) {
+                url = `${baseUrl}${url}`
+            }
             /** 将对象转为json字符串 */
             if (data) {
                 for (const [key, val] of Object.entries(data)) {
@@ -45,7 +48,7 @@ async function apiAccess<T extends ApiKeyType>(api: T, params?: ApiRequestType[T
             }
             /** 异步发送请求 */
             axios<ApiResponseType[T]>({
-                url: `${baseUrl}${url}`,
+                url: url,
                 method: apiInfo[api].method,
                 params: params || {},
                 data: data || {},

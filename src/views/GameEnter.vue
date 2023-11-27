@@ -24,7 +24,7 @@ const openArcaea = () => window.open("/Arcaea_2-1.png")
     <div class="game">
         <div class="game-title">趣味小游戏</div>
         <div class="game-desc">
-            <p>最近gin学习了该如何表示二进制数据，然而他怎么看都看不懂</p>
+            <p>最近gin学习了该如何表制数据，然而他怎么看都看不懂</p>
             <p>他的好朋友amazingF却一点都不同情他，还温馨（kě wù）地出了一道题来考他</p>
             <p>愚蠢的小g一点头绪都没有，你能帮帮他吗？</p>
             <p style="padding-top: 24px">

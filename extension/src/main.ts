@@ -2,6 +2,7 @@ import { CustomRefList } from "./plugins/react"
 import { useApiAccess } from "./plugins/apiAccess"
 import { sleep, getUrlParam } from "./plugins/tool"
 import { getQuizQuestionKeys, setQuizAnswer, setHomeworkAnswer, autoEvaluate, autoComment } from "./plugins/mooc"
+import { newExamHandle } from "./newExam"
 
 const apiAccess = useApiAccess()
 const refList = new CustomRefList()
@@ -10,6 +11,10 @@ const newCourseState = refList.add(-1)
 let testId: string | null = null
 const [analysis, prepare, examlist] = [refList.add(false), refList.add(false), refList.add(false)]
 
+if (location.href.indexOf("newExam") !== -1) {
+    newExamHandle()
+}
+
 const getAnswer = async () => {
     if (stateTips.innerText === "正在获取答案，请稍后...") {
         return
@@ -17,6 +22,7 @@ const getAnswer = async () => {
     stateTips.innerText = "正在获取答案，请稍后..."
     if (testType.get() === "quiz") {
         const answers = await apiAccess("selectQustion", { tid: testId as string }, getQuizQuestionKeys())
+        console.log(answers)
         setQuizAnswer(answers.data.choiceAns as number[], answers.data.completionAns as Object)
     } else if (testType.get() === "homework") {
         const answers = await apiAccess("selectQustion", { tid: testId as string }, {})
@@ -46,12 +52,13 @@ document.head.append(styleNode)
 const wrapperNode = document.createElement("div")
 wrapperNode.id = "GinsMooc"
 wrapperNode.classList.add("m-learnbox")
-document.querySelector(".g-mn1c")?.prepend(wrapperNode)
+document.querySelector(".learnPageContentLeft")?.prepend(wrapperNode)
 
 const setNotice = async () => {
-    const announcement = (await apiAccess("getAnnouncement", { version: "2.0.2" }, undefined)).data
+    const announcement = (await apiAccess("getAnnouncement", { version: "2.0.8" }, undefined)).data
+    console.log(announcement)
     const noticeNode = document.createElement("div")
-    noticeNode.innerHTML = announcement === "无" ? "" : announcement
+    noticeNode.innerHTML = announcement === "empty" ? "" : announcement
     wrapperNode.prepend(noticeNode)
 }
 setNotice()
@@ -84,7 +91,7 @@ functionNode.append(stateTips)
 
 window.addEventListener("hashchange", () => {
     testId = getUrlParam("id")
-    if (location.hash.indexOf("quiz") !== -1 || location.hash.indexOf("examObjective") !== -1) {
+    if (location.hash.indexOf("quiz") !== -1 || location.hash.indexOf("examObject") !== -1) {
         testType.set("quiz")
     } else if (location.hash.indexOf("hw") !== -1 || location.hash.indexOf("examSubjective") !== -1) {
         testType.set("homework")

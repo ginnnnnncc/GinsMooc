@@ -31,6 +31,11 @@ const apiInfo = {
         url: "/mooc/announcement",
         method: "GET",
         token: false
+    },
+    getNewExamInfo: {
+        url: "https://www.icourse163.org/mm-tiku/web/j/mocExamBean.getPaper.rpc",
+        method: "POST",
+        token: false
     }
 }
 
@@ -50,6 +55,13 @@ export interface ApiResponseType {
         homeworkAns?: Object
     }>
     getAnnouncement: Response<string>
+    getNewExamInfo: {
+        code: number
+        result: {
+            tid: number
+            questions: { optionDtos: { id: number }[] }[]
+        }
+    }
 }
 
 export interface ApiRequestType {
@@ -62,12 +74,19 @@ export interface ApiRequestType {
     selectQustion: RequestType & {
         params: { tid: number | string }
         data: {
-            qidList?: number[]
+            oidList?: number[]
             titleList?: string[]
         }
     }
     getAnnouncement: RequestType & {
         params: { version: string }
+    }
+    getNewExamInfo: RequestType & {
+        params: { csrfKey: string }
+        data: {
+            answerformId: number | string
+            examId: number | string
+        }
     }
 }
 

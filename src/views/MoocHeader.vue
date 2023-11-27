@@ -12,11 +12,11 @@ const extensionCollapseValue = ref("1")
 
 <template>
     <div class="mooc-header">
-        <div class="mooc-notice">插件已经更新，上学期的已经不能使用，请重新下载哦~</div>
+        <div class="mooc-notice">插件更新，修复选择题不高亮答案问题 - 10.9</div>
         <div class="mooc-function">
             <ElIcon :color="color[extensionBtnColor % 2]" :size="25" @mouseenter="extensionBtnColor++"
-                @mouseleave="extensionBtnColor++" @click="extensionDialogVisible = true" style="cursor: pointer">
-                <Extension />
+                @mouseleave="extensionBtnColor++" @click="extensionDialogVisible = true" style="cursor: pointer;">
+                <Extension style="margin: 0;" />
             </ElIcon>
         </div>
     </div>
@@ -29,7 +29,7 @@ const extensionCollapseValue = ref("1")
                     <li>非在线测评题的自动答案查询，包括单选题、多选题、判断题、填空题、简答题，支持测验与作业及考试</li>
                     <li>互评阶段的自动评分、自动点评</li>
                 </ul>
-                <p>下载地址：<ElLink href="/download/GinsMoocExtension_v2.0.2.zip">https://ginnnnnn.top/download/GinsMoocExtension.zip
+                <p>下载地址：<ElLink href="/download/GinsMoocExtension_v2.0.8.zip">https://ginnnnnn.top/download/GinsMoocExtension_v2.0.8.zip
                     </ElLink>
                 </p>
             </ElCollapseItem>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue"
 const apiList = [
-    { name: "JSONPlayer【有弹幕】", url: "https://jx.bozrc.com:4433/player/?url=" },
+    { name: "JSONPlayer【有弹幕】", url: "https://jx.777jiexi.com/player/?url=" },
     { name: "CKPlayer", url: "https://www.ckplayer.vip/jiexi/?url=" },
     { name: "盘古", url: "https://www.pangujiexi.cc/jiexi.php?url=" },
     { name: "老板", url: "https://vip.laobandq.com/jiexi.php?url=" },

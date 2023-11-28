@@ -5,6 +5,7 @@
 - 互评阶段的自动评分、自动点评
 
 下载地址：[Github release v2.0.8](https://github.com/ginnnnnn666/GinsMooc/releases/tag/v2.0.8)
+
 在线使用：[GinsMooc](https://ginnnnnn.top/mooc/)
 
 # 功能介绍

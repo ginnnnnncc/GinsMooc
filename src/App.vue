@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import { useDark } from "@vueuse/core"
-import { HomeFilled, Message, Moon, Promotion, Sunny, Document } from "@element-plus/icons-vue"
+import {  Moon, Sunny } from "@element-plus/icons-vue"
 import { Github } from "@/components/icon"
 import router from "@/router"
 
@@ -13,45 +13,41 @@ const themeStyle = {
     "--el-switch-border-color": "var(--el-border-color-dark)"
 }
 
-const emailDialogVisible = ref(false)
-const questionDiaglogVisible = ref(false)
 const goIndex = () => router.push("/")
 const openGithub = () => window.open("https://github.com/ginnnnnn666/GinsMooc")
+const spaceCount = () => window.innerWidth < 768 ? 8 : 16
 
 const defaultColor = "var(--el-color-primary-dark-2)"
 const hoverColor = "var(--el-color-primary)"
 const color = [defaultColor, hoverColor]
-const [messageBtnColor, githubBtnColor, questionBtnColor] = [ref(0), ref(0), ref(0)]
+const githubBtnColor = ref(0)
+
 </script>
 
 <template>
     <ElContainer>
-        <ElHeader class="header" height="50px">
+        <ElHeader class="header">
             <ElSpace :size="8" class="nav">
                 <ElMenu :default-active="$route.path" mode="horizontal" router class="nav-start" :ellipsis="false">
-                    <ElImage class="icon" src="/favicon.png" @click="goIndex()"></ElImage>
-                    <ElMenuItem class="menu-item" index="/mooc">Mooc</ElMenuItem>
-                    <ElMenuItem class="menu-item" index="/video">Video</ElMenuItem>
+                    <ElImage class="icon hidden-xs-only" src="/favicon.png" @click="goIndex()"></ElImage>
+                    <ElMenuItem class="menu-item hidden-xs-only" index="/mooc">Mooc</ElMenuItem>
+                    <ElMenuItem class="menu-item hidden-xs-only" index="/video">Video</ElMenuItem>
+
+                    <ElImage class="icon small hidden-sm-and-up" src="/favicon.png" @click="goIndex()"></ElImage>
+                    <ElMenuItem class="menu-item small hidden-sm-and-up" index="/mooc">Mooc</ElMenuItem>
+                    <ElMenuItem class="menu-item small hidden-sm-and-up" index="/video">Video</ElMenuItem>
                 </ElMenu>
                 <div class="nav-center">
                     <RouterView name="header" />
                 </div>
-                <ElSpace :size="16" class="nav-end">
-                    <ElIcon :color="color[questionBtnColor % 2]" :size="25" @click="questionDiaglogVisible = true"
-                        @mouseenter="questionBtnColor++" @mouseleave="questionBtnColor++" style="cursor: pointer">
-                        <Document />
-                    </ElIcon>
-                    <ElIcon :color="color[messageBtnColor % 2]" :size="25" @click="emailDialogVisible = true"
-                        @mouseenter="messageBtnColor++" @mouseleave="messageBtnColor++" style="cursor: pointer">
-                        <Message />
-                    </ElIcon>
+                <ElSpace class="nav-end" :size="spaceCount()">
                     <ElSwitch v-model="isDark" inline-prompt :active-icon="Moon" :inactive-icon="Sunny" :style="themeStyle"
                         class="theme-switch"></ElSwitch>
-                    <ElIcon :color="color[githubBtnColor % 2]" :size="30" @click="openGithub" @mouseenter="githubBtnColor++"
-                        @mouseleave="githubBtnColor++" style="cursor: pointer">
+                    <ElIcon :color="color[githubBtnColor % 2]" @click="openGithub" @mouseenter="githubBtnColor++"
+                        @mouseleave="githubBtnColor++" style="cursor: pointer" class="github-icon">
                         <Github />
                     </ElIcon>
-                    <ElAvatar :size="25" src="/headicon.png"></ElAvatar>
+                    <ElAvatar class="avatar" :size="25" src="/headicon.png"></ElAvatar>
                 </ElSpace>
             </ElSpace>
         </ElHeader>
@@ -61,35 +57,44 @@ const [messageBtnColor, githubBtnColor, questionBtnColor] = [ref(0), ref(0), ref
             </Suspense>
         </ElMain>
     </ElContainer>
-    <ElDialog v-model="emailDialogVisible">
-        <template #header>
-            <span>反馈或帮助</span>
-        </template>
-        <p>若为反馈，请说明出现问题的具体课程、课程id、哪个测验/作业/考试。</p>
-        <p>
-            <span>发送邮件至：</span>
-            <ElLink type="primary" href="mailto:ginnnnnn-cc@outook.com" class="link-mail">
-                <span>ginnnnnn-cc@outook.com</span>
-                <ElIcon class="el-icon--right" style="margin-left: 6px !important">
-                    <Promotion />
-                </ElIcon>
-            </ElLink>
-        </p>
-    </ElDialog>
-    <ElDialog v-model="questionDiaglogVisible">
-        <template #header>问卷小调查</template>
-        <p>诚邀您参与问卷小调查：<ElLink type="primary" href="https://wj.qq.com/s2/12623978/b5f8/">https://wj.qq.com/s2/12623978/b5f8/
-            </ElLink>
-        </p>
-        <ElImage style="height: 200px; width: 200px;" src="/question.png"></ElImage>
-    </ElDialog>
 </template>
 
 <style scoped>
 .header {
+    height: 50px;
     padding: 0;
     border-bottom: 1px solid var(--el-border-color-light);
     background-color: var(--el-bg-color);
+}
+
+@media only screen and (max-width: 768px) {
+    .header {
+        height: 40px;
+    }
+
+    .nav-start {
+        height: 40px !important;
+    }
+
+    .menu-item.small {
+        padding: 0 8px;
+        font-size: 13px;
+    }
+
+    .icon.small {
+        height: 20px;
+        width: 20px;
+        margin: 10px 16px 10px 16px;
+    }
+
+    .github-icon {
+        font-size: 26px !important;
+    }
+
+    .avatar {
+        height: 22px;
+        width: 22px;
+    }
 }
 
 .main {
@@ -118,8 +123,8 @@ const [messageBtnColor, githubBtnColor, questionBtnColor] = [ref(0), ref(0), ref
     justify-content: end;
 }
 
-.link-mail {
-    font-family: Consolas, "Courier New", monospace;
+.github-icon {
+    font-size: 30px;
 }
 </style>
 

@@ -8,13 +8,15 @@ const color = [defaultColor, hoverColor]
 const extensionBtnColor = ref(0)
 const extensionDialogVisible = ref(false)
 const extensionCollapseValue = ref("1")
+
+const sizeCount = () => window.innerWidth < 768 ? 20 : 25
 </script>
 
 <template>
     <div class="mooc-header">
-        <div class="mooc-notice">插件更新，修复选择题不高亮答案问题 - 10.9</div>
+        <div class="mooc-notice"><span class="hidden-xs-only"></span></div>
         <div class="mooc-function">
-            <ElIcon :color="color[extensionBtnColor % 2]" :size="25" @mouseenter="extensionBtnColor++"
+            <ElIcon :color="color[extensionBtnColor % 2]" :size="sizeCount()" @mouseenter="extensionBtnColor++"
                 @mouseleave="extensionBtnColor++" @click="extensionDialogVisible = true" style="cursor: pointer;">
                 <Extension style="margin: 0;" />
             </ElIcon>
@@ -77,6 +79,13 @@ const extensionCollapseValue = ref("1")
     align-items: center;
     justify-content: flex-end;
     padding-right: 8px;
+}
+
+@media screen and (max-width: 768px) {
+    .mooc-function {
+        padding-right: 0;
+    }
+    
 }
 
 .extension-image {

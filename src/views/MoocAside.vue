@@ -54,7 +54,10 @@ const onNewCourseClick = async () => {
         data.value = (await apiAccess("getCourseList")).data
     }
 }
-const onCourseClick = (course: course) => router.push({ path: `/mooc/course/${course.id}` })
+const onCourseClick = (course: course) => {
+    router.push({ path: `/mooc/course/${course.id}` })
+    drawerVisible.value = false
+}
 
 const courseFilter = () => {
     return fuzzysort.go(query.value, data.value, {

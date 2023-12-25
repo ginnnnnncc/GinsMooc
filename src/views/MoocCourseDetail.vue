@@ -47,6 +47,7 @@ watch(
 )
 
 const onTestClick = (test: test) => router.push({ path: `/mooc/test/${test.id}` })
+const sizeCount = () => window.innerWidth < 768 ? 'small' : 'default'
 </script>
 
 <template>
@@ -56,8 +57,9 @@ const onTestClick = (test: test) => router.push({ path: `/mooc/test/${test.id}` 
             <div class="chapter__detail">
                 <div class="test" v-for="test in chapter">
                     <ElLink class="test__title" :underline="false" @click="onTestClick(test)">{{ test.name }}</ElLink>
-                    <ElTag class="test__release-time" type="success">{{ test.releaseTime }}</ElTag>
-                    <ElTag class="test__deadline" type="danger">{{ test.deadline }}</ElTag>
+                    <br class="hidden-sm-and-up"/>
+                    <ElTag class="test__release-time" type="success" :size="sizeCount()">{{ test.releaseTime }}</ElTag>
+                    <ElTag class="test__deadline" type="danger" :size="sizeCount()">{{ test.deadline }}</ElTag>
                 </div>
             </div>
         </div>
@@ -110,5 +112,41 @@ const onTestClick = (test: test) => router.push({ path: `/mooc/test/${test.id}` 
 .test__release-time,
 .test__deadline {
     transition: all 0s;
+}
+
+@media screen and (max-width: 768px) {
+    .course-detail {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .course-detail
+    .chapter {
+        margin: 16px 0 0 16px;
+        padding-right: 16px;
+    }
+    .chapter__title {
+        font-size: 16px;
+    }
+    .chapter__detail {
+        padding: 0 8px 0 16px;
+    }
+    .test {
+        margin-top: 8px;
+        line-height: 24px;
+    }
+    .test__title {
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+    .test__release-time {
+        margin-left: 16px;
+    }
+    .test__deadline {
+        margin-left: 8px;
+    }
+    .test__release-time {
+        margin-left: 0;
+    }
 }
 </style>

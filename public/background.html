@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+	Aerial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="css/main.css" />
+        <noscript><link rel="stylesheet" href="css/noscript.css" /></noscript>
+    </head>
+    <body class="is-preload">
+        <div id="wrapper">
+            <div id="bg"></div>
+            <div id="overlay"></div>
+            <div id="main">
+                <!-- Header -->
+                <header id="header" style="text-shadow: 5px 5px 5px grey;">
+                    <h1>Welcome</h1>
+                    <p>冬至快乐！</p>
+                </header>
+            </div>
+        </div>
+        <script>
+            window.onload = function () {
+                document.body.classList.remove("is-preload")
+            }
+            window.ontouchmove = function () {
+                return false
+            }
+            window.onorientationchange = function () {
+                document.body.scrollTop = 0
+            }
+        </script>
+    </body>
+</html>

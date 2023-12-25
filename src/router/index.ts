@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router"
-import { HomeView, GameView, MoocView, MoocHeader, MoocCourseDetail, MoocTest, VideoView } from "@/views"
+import { HomeView, MoocView, MoocHeader, MoocCourseDetail, MoocTest, VideoView } from "@/views"
 import { ElMessage } from "element-plus"
 
 const router = createRouter({
@@ -29,13 +29,6 @@ const router = createRouter({
                 { path: "course/:cid", name: "MoocCourse", component: MoocCourseDetail, props: true },
                 { path: "test/:tid", name: "MoocTest", component: MoocTest, props: true }
             ]
-        },
-        {
-            path: "/game/:game",
-            name: "Game",
-            meta: { title: "GinsGame" },
-            component: GameView,
-            props: true
         }
     ]
 })

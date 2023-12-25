@@ -46,27 +46,34 @@ const isOnlineJudge = (data: quiz | homework): data is homework => data.type ===
     box-shadow: var(--el-box-shadow-light);
     transition: all 0.2s;
 }
+
 .question-card:hover {
     transform: scale(1.02);
 }
+
 .question-card :deep(.question-card-header) {
     margin-bottom: 14px;
     color: var(--el-text-color-primary);
     line-height: 1.5;
 }
+
 .question-card :deep(.question-card-body) {
     color: var(--el-text-color-primary);
     line-height: 1.5;
 }
+
 .question-card :deep(.question-card-body img) {
     max-width: 100%;
     height: auto;
 }
-.question-card :deep(.el-checkbox__label), .question-card :deep(.el-radio__label) {
+
+.question-card :deep(.el-checkbox__label),
+.question-card :deep(.el-radio__label) {
     white-space: normal;
     line-height: 1.5;
     color: var(--el-text-color-primary);
 }
+
 .question-card :deep(.question-card__seq) {
     float: left;
     margin-right: 8px;
@@ -74,7 +81,58 @@ const isOnlineJudge = (data: quiz | homework): data is homework => data.type ===
     font-size: 16px;
     color: var(--el-text-color-primary);
 }
+
 .question-card :deep(.question-card__title img) {
     max-width: 100%;
 }
-</style>
+
+@media only screen and (max-width: 768px) {
+    .question-card {
+        padding: 10px 20px;
+        margin-top: 8px;
+    }
+
+    .question-card :deep(.question-card-header) {
+        margin-bottom: 8px;
+    }
+
+    .question-card :deep(.question-card__seq),
+    .question-card :deep(.question-card__title) {
+        font-size: 14px;
+    }
+
+    .question-card :deep(.el-radio),
+    .question-card :deep(.el-checkbox) {
+        height: 24px;
+    }
+
+    .question-card :deep(.el-radio .el-radio__inner),
+    .question-card :deep(.el-checkbox .el-checkbox__inner) {
+        width: 12px;
+        height: 12px;
+    }
+
+    .question-card :deep(.el-checkbox .el-checkbox__inner:after) {
+        width: 2px;
+        height: 6px;
+    }
+
+    .question-card :deep(.el-radio .el-radio__label),
+    .question-card :deep(.el-checkbox .el-checkbox__label),
+    .question-card :deep(.question-card-body) {
+        font-size: 12px;
+    }
+
+    .question-card :deep(.el-input) {
+        --el-input-height: var(--el-component-size-small);
+        font-size: 12px;
+    }
+
+    .question-card :deep(.el-input__wrapper) {
+        padding: 1px 7px;
+    }
+
+    .question-card :deep(.el-input__inner) {
+        --el-input-inner-height: calc(var(--el-input-height, 24px) - 2px);
+    }
+}</style>

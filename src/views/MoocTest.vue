@@ -72,10 +72,28 @@ watch(
         loadData()
     }
 )
+
+var lastScrollTop = 0;
+var moocHeader = document.getElementsByClassName('mooc-main-header').item(0) as HTMLElement;
+var header = document.getElementsByClassName('header').item(0) as HTMLElement;
+
+const scrollCallback = (arg: {scrollLeft: number, scrollTop: number}) => {
+    if (window.innerWidth >= 768) return
+    if (!moocHeader) moocHeader = document.getElementsByClassName('mooc-main-header').item(0) as HTMLElement
+    if (!header) header = document.getElementsByClassName('header').item(0) as HTMLElement
+    if (arg.scrollTop > lastScrollTop) {
+        moocHeader.style.display = 'none';
+        header.style.display = 'none';
+    } else {
+        moocHeader.style.display = 'flex';
+        header.style.display = 'block';
+    }
+    lastScrollTop = arg.scrollTop;
+}
 </script>
 
 <template>
-    <ElScrollbar class="test-detail" :always="true">
+    <ElScrollbar class="test-detail" :always="true" @scroll="scrollCallback">
         <div v-infinite-scroll="loadData" :infinite-scroll-disabled="disabled()" :infinite-scroll-distance="500">
             <ElRow :gutter="20" style="margin: 0 10px 20px 10px" class="hidden-md-and-down">
                 <ElCol :span="12">
@@ -89,7 +107,7 @@ watch(
                     ></QuestionCard>
                 </ElCol>
             </ElRow>
-            <ElCol class="hidden-lg-and-up" style="margin: 0 20px 20px 20px">
+            <ElCol class="hidden-lg-and-up question-card-small">
                 <QuestionCard v-for="question in all" :data="question.data" :order="question.order"></QuestionCard>
             </ElCol>
         </div>
@@ -99,5 +117,15 @@ watch(
 <style scoped>
 .test-detail {
     padding-right: 6px;
+}
+
+.question-card-small {
+    margin: 0 20px 20px 20px
+}
+
+@media only screen and (max-width: 768px) {
+    .question-card-small {
+        margin: 0 0;
+    }
 }
 </style>

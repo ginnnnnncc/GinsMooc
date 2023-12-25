@@ -7,6 +7,8 @@
 下载地址：[Github release v2.0.8](https://github.com/ginnnnnn666/GinsMooc/releases/tag/v2.0.8)
 在线使用：[GinsMooc](https://ginnnnnn.top/mooc/)
 
+在线使用：[GinsMooc](https://ginnnnnn.top/mooc/)
+
 # 功能介绍
 
 在测试的准备页面，将会自动检查是否准备就绪，若为否将自动更新课程

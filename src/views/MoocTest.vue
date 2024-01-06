@@ -93,7 +93,7 @@ const scrollCallback = (arg: {scrollLeft: number, scrollTop: number}) => {
 </script>
 
 <template>
-    <ElScrollbar class="test-detail" :always="true" @scroll="scrollCallback">
+    <ElScrollbar class="test-detail" :always="true" @scroll="scrollCallback" :noresize="true">
         <div v-infinite-scroll="loadData" :infinite-scroll-disabled="disabled()" :infinite-scroll-distance="500">
             <ElRow :gutter="20" style="margin: 0 10px 20px 10px" class="hidden-md-and-down">
                 <ElCol :span="12">

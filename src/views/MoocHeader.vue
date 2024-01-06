@@ -14,7 +14,7 @@ const sizeCount = () => window.innerWidth < 768 ? 20 : 25
 
 <template>
     <div class="mooc-header">
-        <div class="mooc-notice"><span class="hidden-xs-only"></span></div>
+        <div class="mooc-notice"><span class="hidden-xs-only">页面已经悄悄地适配了移动端</span></div>
         <div class="mooc-function">
             <ElIcon :color="color[extensionBtnColor % 2]" :size="sizeCount()" @mouseenter="extensionBtnColor++"
                 @mouseleave="extensionBtnColor++" @click="extensionDialogVisible = true" style="cursor: pointer;">

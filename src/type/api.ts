@@ -23,34 +23,7 @@ interface testDetail extends Object {
     totalPages: number
 }
 
-interface gameDetail extends Object {
-    info: {
-        passed: number
-        talented: number
-    }
-    state: {
-        less: boolean
-        more: boolean
-        reward: boolean
-    }
-}
-
 const apiInfo = {
-    guessGame: {
-        url: "/game/guess",
-        method: "POST",
-        token: true
-    },
-    getGameInfo: {
-        url: "/game/guess",
-        method: "GET",
-        token: true
-    },
-    refreshGameNumber: {
-        url: "/game/guess",
-        method: "PUT",
-        token: true
-    },
     getCourseList: {
         url: "/mooc/course",
         method: "GET",
@@ -70,40 +43,31 @@ const apiInfo = {
         url: "/mooc/test/:tid",
         method: "GET",
         token: false
-    },
-    getAnnouncement: {
-        url: "/mooc/announcement",
-        method: "GET",
-        token: false
     }
 }
 
 export type ApiKeyType = keyof typeof apiInfo
 
 export interface ApiResponseType {
-    guessGame: Response<gameDetail>
-    getGameInfo: Response<{
-        passed: number
-        talented: number
+    getCourseList: Response<{
+        courseList: course[]
+        totalPages: number
     }>
-    refreshGameNumber: Response<null>
-    getCourseList: Response<course[]>
     addCourse: Response<{
         finished: number
         total: number
     }>
     getCourseDetail: Response<courseDetail>
     getTestDetail: Response<testDetail>
-    getAnnouncement: Response<string>
 }
 
 export interface ApiRequestType {
-    guessGame: RequestType & {
-        data: { guess: number | string }
+    getCourseList: RequestType & {
+        params: {
+            page: number | string
+            search?: string
+        }
     }
-    getGameInfo: RequestType
-    refreshGameNumber: RequestType
-    getCourseList: RequestType
     addCourse: RequestType & {
         params: { cid: number | string }
     }
@@ -117,7 +81,6 @@ export interface ApiRequestType {
             search?: string
         }
     }
-    getAnnouncement: RequestType
 }
 
 export default apiInfo

@@ -21,7 +21,6 @@ const defaultColor = "var(--el-color-primary-dark-2)"
 const hoverColor = "var(--el-color-primary)"
 const color = [defaultColor, hoverColor]
 const githubBtnColor = ref(0)
-
 </script>
 
 <template>

@@ -36,15 +36,13 @@ const emit = defineEmits<{
     transform: scale(0.98);
 }
 
-.course-card.is-selected {
+.course-card.is-selected, .course-card:not(.is-selected):active {
     background-color: var(--el-color-primary-light-5);
+    z-index: 5;
 }
 
 .course-card:not(.is-selected):hover {
     background-color: var(--el-color-primary-light-7);
-}
-.course-card:not(.is-selected):active {
-    background-color: var(--el-color-primary-light-5);
 }
 
 .course-card__img {

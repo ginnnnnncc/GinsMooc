@@ -49,7 +49,7 @@ async function apiAccess<T extends ApiKeyType>(
             }
             /** 异步发送请求 */
             axios<ApiResponseType[T]>({
-                url: "https://ginnnnnn.top/api" + url,
+                url: "/api" + url,
                 method: apiInfo[api].method,
                 params: params || {},
                 data: data || {},

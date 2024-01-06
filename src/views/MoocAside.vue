@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { course } from "@/type/mooc"
+import type { courseList } from "@/type/api"
 import { ref, watch } from "vue"
 import { useApiAccess } from "@/plugins/apiAccess"
 import { Plus, Search } from "@element-plus/icons-vue"
@@ -17,6 +18,9 @@ const props = defineProps<{
 const drawerVisible = ref(false)
 const data = ref(<course[]>[])
 const query = ref("")
+const refresh = ref(false)
+const clicked = ref(false)
+const cidCourseLoading = ref(false)
 
 const showDrawer = () => (drawerVisible.value = true)
 defineExpose({ showDrawer })
@@ -51,10 +55,12 @@ const onNewCourseClick = async () => {
     newCourseId.value = ""
     newCourseDialogVisible.value = false
     if (status === 200) {
+        refresh.value = true
         loadData()
     }
 }
 const onCourseClick = (course: course) => {
+    clicked.value = true
     router.push({ path: `/mooc/course/${course.id}` })
     drawerVisible.value = false
 }
@@ -62,37 +68,86 @@ const onCourseClick = (course: course) => {
 watch(
     () => query.value,
     () => {
-        nextPage = 0
+        refresh.value = true
         loadData()
     }
 )
 
-let [nextPage, totalPages] = [0, 0]
+watch(
+    () => props.currentCourse?.id,
+    () => {
+        if (!clicked.value) {
+            refresh.value = true
+            loadData(props.currentCourse?.id)
+        }
+    }
+)
+
+let [currentPage, totalPages] = [[0, -1], 0]
 const loading = ref(false)
-const disabled = () => loading.value || nextPage >= totalPages
+const disabled = () => loading.value || currentPage[1] >= totalPages - 1
 const scrollbarRef1 = ref<InstanceType<typeof ElScrollbar>>()
 const scrollbarRef2 = ref<InstanceType<typeof ElScrollbar>>()
 
-const loadData = async () => {
-    const res = (await apiAccess("getCourseList", { page: nextPage++, search: query.value }, undefined)).data
-    if (nextPage === 1) {
-        totalPages = res.totalPages
+const loadData = async (cid?: number, up?: boolean) => {
+    const scrollTop = (value: number) => {
+        scrollbarRef1.value && scrollbarRef1.value.setScrollTop(value)
+        scrollbarRef2.value && scrollbarRef2.value.setScrollTop(value)
+    }
+    
+    if (cid) {
+        cidCourseLoading.value = true
+    }
+    loading.value = true
+    const res = (await apiAccess("getCourseList", cid ? { cid } : { page: up ? --currentPage[0] : ++currentPage[1], search: query.value }, undefined)).data
+    loading.value = false
+    if (!cid && cidCourseLoading.value) {
+        return
+    }
+
+    if (refresh.value) {
         data.value = res.courseList
-        scrollbarRef1.value!.setScrollTop(0)
-        scrollbarRef2.value!.setScrollTop(0)
+        refresh.value = false
+        currentPage = [res.currentPage, res.currentPage]
+    } else if (up) {
+        data.value = res.courseList.concat(data.value)
+        currentPage[0] = res.currentPage
     } else {
         data.value = data.value.concat(res.courseList)
+        currentPage[1] = res.currentPage
     }
+
+    if (cid) {
+        cidCourseLoading.value = false
+        const order = data.value.findIndex((course) => course.id === cid)
+        order !== -1 && scrollTop(order * 92)
+    } else if (refresh.value) {
+        scrollTop(0)
+    }
+    totalPages = res.totalPages
 }
 
-loadData()
+let courseListAside = document.querySelectorAll('.course-list .el-scrollbar__view')
+const scrollCallback = (arg: { scrollLeft: number, scrollTop: number }) => {
+    if (courseListAside.length === 0) {
+        courseListAside = document.querySelectorAll('.course-list .el-scrollbar__view')
+    }
+    courseListAside.forEach((value) => {
+        if (!loading.value && currentPage[0] > 0 && value.getBoundingClientRect().top > -500) {
+            loadData(undefined, true)
+        }
+    })
+}
+
+loadData(props.currentCourse?.id)
 </script>
 
 <template>
     <ElContainer>
         <ElMain class="aside-main">
-            <ElScrollbar v-if="data" class="course-list" ref="scrollbarRef1" :noresize="true">
-                <div v-infinite-scroll="loadData" :infinite-scroll-disabled="disabled()" :infinite-scroll-distance="500">
+            <ElScrollbar v-if="data" class="course-list" ref="scrollbarRef1" :noresize="true" @scroll="scrollCallback">
+                <div v-infinite-scroll="loadData" :infinite-scroll-disabled="disabled()" :infinite-scroll-distance="500"
+                    :infinite-scroll-immediate="false">
                     <CourseCard v-for="course in data" :key="course.id" :course="course"
                         :class="{ 'is-selected': currentCourse && course.id === currentCourse.id }"
                         @click="onCourseClick(course)"></CourseCard>
@@ -111,10 +166,10 @@ loadData()
         class="aside-drawer" :append-to-body="true">
         <ElScrollbar v-if="data" class="course-list" ref="scrollbarRef2">
             <div v-infinite-scroll="loadData" :infinite-scroll-disabled="disabled()" :infinite-scroll-distance="500">
-                    <CourseCard v-for="course in data" :key="course.id" :course="course"
-                        :class="{ 'is-selected': currentCourse && course.id === currentCourse.id }"
-                        @click="onCourseClick(course)"></CourseCard>
-                </div>
+                <CourseCard v-for="course in data" :key="course.id" :course="course"
+                    :class="{ 'is-selected': currentCourse && course.id === currentCourse.id }"
+                    @click="onCourseClick(course)"></CourseCard>
+            </div>
         </ElScrollbar>
         <template #footer>
             <ElIcon :size="20" @click="newCourseDialogVisible = true" style="cursor: pointer" class="new-course-btn"
@@ -180,6 +235,7 @@ loadData()
 .course-card.is-selected {
     position: sticky;
     top: 0;
+    bottom: 0;
 }
 
 .aside-drawer {

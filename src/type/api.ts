@@ -11,12 +11,18 @@ type Response<T = any> = {
     msg: string
 }
 
-interface courseDetail extends Object {
+export interface courseList extends Object {
+    courseList: course[]
+    totalPages: number
+    currentPage: number
+}
+
+export interface courseDetail extends Object {
     course: course
     testList: test[]
 }
 
-interface testDetail extends Object {
+export interface testDetail extends Object {
     course: course
     test: test
     questionList: quiz[] | homework[]
@@ -49,10 +55,7 @@ const apiInfo = {
 export type ApiKeyType = keyof typeof apiInfo
 
 export interface ApiResponseType {
-    getCourseList: Response<{
-        courseList: course[]
-        totalPages: number
-    }>
+    getCourseList: Response<courseList>
     addCourse: Response<{
         finished: number
         total: number
@@ -64,8 +67,9 @@ export interface ApiResponseType {
 export interface ApiRequestType {
     getCourseList: RequestType & {
         params: {
-            page: number | string
+            page?: number | string
             search?: string
+            cid?: number | string
         }
     }
     addCourse: RequestType & {

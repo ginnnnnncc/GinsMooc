@@ -23,13 +23,16 @@ const emit = defineEmits<{
 
 <style scoped>
 .course-card {
-    margin: 8px 0;
+    margin-bottom: 8px;
     height: auto;
     padding: 18px 12px 18px 24px;
     display: flex;
     border-radius: 8px;
     transition: all 0.2s;
     cursor: pointer;
+}
+.course-card:last-child {
+    margin-bottom: 0;
 }
 
 .course-card:active {

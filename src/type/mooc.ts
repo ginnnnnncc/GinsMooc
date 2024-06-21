@@ -52,5 +52,10 @@ interface homework extends Object {
     timeLimit: number | null
 }
 
+interface notice extends Object {
+    id: number
+    content: string
+}
+
 export type QuestionTypeEnum = typeof QuestionTypeEnumList
-export type { course, test, option, quiz, homework }
+export type { course, test, option, quiz, homework, notice }

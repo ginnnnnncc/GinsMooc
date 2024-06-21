@@ -31,6 +31,10 @@ const setAnswer = () => {
     checkedList.value.length = 0
     answerList.forEach((value) => checkedList.value.push(value))
 }
+props.data.title = props.data.title.replaceAll(/img\d\.ph\.126\.net/g, 'img-ph-mirror.nosdn.127.net')
+props.data.optionList?.forEach((item) => {
+    item.content = item.content.replaceAll(/img\d\.ph\.126\.net/g, 'img-ph-mirror.nosdn.127.net')
+})
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { test } from "@/type/mooc"
+import type { course, test } from "@/type/mooc"
 import { watch, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { useApiAccess } from "@/plugins/apiAccess"

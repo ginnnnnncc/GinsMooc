@@ -55,11 +55,28 @@ wrapperNode.classList.add("m-learnbox")
 document.querySelector(".learnPageContentLeft")?.prepend(wrapperNode)
 
 const setNotice = async () => {
-    const announcement = (await apiAccess("getAnnouncement", { version: "2.0.8" }, undefined)).data
-    console.log(announcement)
-    const noticeNode = document.createElement("div")
-    noticeNode.innerHTML = announcement === "empty" ? "" : announcement
-    wrapperNode.prepend(noticeNode)
+    const notice = (await apiAccess("getNotice", { version: "v2.1.0" }, undefined)).data
+    console.log(notice)
+    if (
+        !localStorage
+            .getItem("Gins-ignore-notice")
+            ?.split(",")
+            .find((item) => Number.parseInt(item) === notice.id)
+    ) {
+        const noticeNode = document.createElement("div")
+        noticeNode.innerHTML = notice.content
+        const closeBtn = document.createElement("a")
+        closeBtn.innerText = "不再提醒"
+        closeBtn.onclick = () => {
+            const origin = localStorage.getItem("Gins-ignore-notice")
+            localStorage.setItem("Gins-ignore-notice", origin ? `${origin},${notice.id}` : `${notice.id}`)
+            noticeNode.remove()
+            closeBtn.remove()
+        }
+        closeBtn.style.marginLeft = "16px"
+        noticeNode.append(closeBtn)
+        wrapperNode.prepend(noticeNode)
+    }
 }
 setNotice()
 
@@ -118,28 +135,33 @@ const onTestChange = async () => {
     } else {
         getAnswerBtn.classList.add("f-dn")
     }
+
+    newCourseState.set(-2)
     if (prepare.get() && testId) {
         const res = await apiAccess("checkTestExist", { tid: testId, type: "isExisting" }, undefined)
         if (res.data.existing) {
             newCourseState.set(-1)
             return
+        } else {
+            const eventSource = new EventSource(`https://ginnnnnn.top/api/mooc/course/refresh/${getUrlParam("tid")}`)
+            eventSource.onmessage = (event) => {
+                console.log(event.data)
+                const state = JSON.parse(event.data)
+                if (state && state.total > 0) {
+                    newCourseState.set(Math.round((state.finished / state.total) * 100))
+                }
+                if (newCourseState.value === 100 || state.status === 400) {
+                    eventSource.close()
+                    if (state.msg) {
+                        newCourseState.set(-1)
+                    }
+                }
+            }
         }
     } else if (!examlist.get()) {
         newCourseState.set(-1)
         return
     }
-    while (true) {
-        const res = await apiAccess("addCourse", { cid: <string>getUrlParam("tid") }, undefined)
-        const state = res.data
-        if (state) {
-            newCourseState.set(Math.round((state.finished / state.total) * 100))
-        }
-        if (newCourseState.get() === 100) {
-            break
-        }
-        await sleep(500)
-    }
-    newCourseState.set(-1)
 }
 
 const onModeChange = () => {
@@ -157,6 +179,15 @@ analysis.addEventListenr("change", onModeChange)
 prepare.addEventListenr("change", onTestChange)
 testType.addEventListenr("change", onTestChange)
 newCourseState.addEventListenr("set", () => {
-    stateTips.innerText =
-        newCourseState.get() === -1 ? (prepare.get() ? "已准备就绪" : "") : `正在更新课程...${newCourseState.get()}%`
+    switch (newCourseState.get()) {
+        case -2:
+            stateTips.innerText = "正在检查课程..."
+            break
+        case -1:
+            stateTips.innerText = prepare.get() ? "已准备就绪" : ""
+            break
+        default:
+            stateTips.innerText = `正在更新课程...${newCourseState.get()}%`
+            break
+    }
 })

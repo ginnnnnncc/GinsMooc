@@ -1,4 +1,4 @@
-import type { homework, quiz } from "./mooc"
+import type { homework, quiz, notice } from "./mooc"
 
 type RequestType = {
     params?: Object
@@ -14,28 +14,23 @@ type Response<T = any> = {
 const apiInfo = {
     checkTestExist: {
         url: "/mooc/test/:tid",
-        method: "GET",
-        token: false
-    },
-    addCourse: {
-        url: "/mooc/course/:cid",
-        method: "POST",
-        token: true
+        method: "GET"
     },
     selectQustion: {
         url: "/mooc/test/:tid",
-        method: "POST",
-        token: false
+        method: "POST"
     },
     getAnnouncement: {
         url: "/mooc/announcement",
-        method: "GET",
-        token: false
+        method: "GET"
     },
     getNewExamInfo: {
         url: "https://www.icourse163.org/mm-tiku/web/j/mocExamBean.getPaper.rpc",
-        method: "POST",
-        token: false
+        method: "POST"
+    },
+    getNotice: {
+        url: "/mooc/notice/extension",
+        method: "GET"
     }
 }
 
@@ -45,16 +40,13 @@ export interface ApiResponseType {
     checkTestExist: Response<{
         existing: boolean
     }>
-    addCourse: Response<{
-        finished: number
-        total: number
-    }>
     selectQustion: Response<{
         choiceAns?: number[]
         completionAns?: Object
         homeworkAns?: Object
     }>
     getAnnouncement: Response<string>
+    getNotice: Response<notice>
     getNewExamInfo: {
         code: number
         result: {
@@ -68,9 +60,6 @@ export interface ApiRequestType {
     checkTestExist: RequestType & {
         params: { tid: number | string; type: "isExisting" }
     }
-    addCourse: RequestType & {
-        params: { cid: number | string }
-    }
     selectQustion: RequestType & {
         params: { tid: number | string }
         data: {
@@ -78,7 +67,7 @@ export interface ApiRequestType {
             titleList?: string[]
         }
     }
-    getAnnouncement: RequestType & {
+    getNotice: RequestType & {
         params: { version: string }
     }
     getNewExamInfo: RequestType & {

@@ -27,4 +27,3 @@ coverage
 *.sln
 *.sw?
 **/*.pem
-**/axiosConfig.ts

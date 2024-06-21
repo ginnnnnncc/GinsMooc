@@ -1,5 +1,3 @@
-import jsSHA from "jssha"
-
 const sleep = async (ms: number) => {
     return new Promise((resolve) => {
         setTimeout(() => {
@@ -16,9 +14,12 @@ const getUrlParam = (key: string) => {
 }
 
 const randomString = (length: number) => {
-    return new jsSHA("SHA-256", "TEXT")
-        .update(self.crypto.randomUUID())
-        .getHash("HEX").substring(0, length)
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+    let result = ''
+    for (let i = 0; i < length; i++) {
+        result += chars[Math.floor(Math.random() * chars.length)]
+    }
+    return result
 }
 
 export { sleep, getUrlParam, randomString }

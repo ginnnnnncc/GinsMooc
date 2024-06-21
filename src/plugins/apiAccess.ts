@@ -2,9 +2,8 @@ import type { ApiKeyType, ApiResponseType, ApiRequestType } from "../type/api"
 import type { App } from "vue"
 import { isAxiosError } from "axios"
 import { ElMessage } from "element-plus"
-import jsSHA from "jssha"
 import apiInfo from "../type/api"
-import axios from "./axios/axiosConfig"
+import axios from "axios"
 
 async function apiAccess<T extends ApiKeyType>(api: T): Promise<ApiResponseType[T]>
 async function apiAccess<T extends ApiKeyType>(
@@ -41,19 +40,14 @@ async function apiAccess<T extends ApiKeyType>(
                     }
                 }
             }
-            /** 设置token */
-            let token = localStorage.getItem("Gins-token")
-            if (!token) {
-                token = new jsSHA("SHA-256", "TEXT").update(self.crypto.randomUUID()).getHash("HEX")
-                localStorage.setItem("Gins-token", token)
-            }
             /** 异步发送请求 */
+            let urlPrefix = "https://ginnnnnn.top/api"
             axios<ApiResponseType[T]>({
-                url: "/api" + url,
+                url: urlPrefix + url,
                 method: apiInfo[api].method,
                 params: params || {},
                 data: data || {},
-                headers: apiInfo[api].token ? { Token: token } : {}
+                headers: { "Content-Type": "application/x-www-form-urlencoded" }
             })
                 .then((res) => {
                     let message = "",

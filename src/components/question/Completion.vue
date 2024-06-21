@@ -34,6 +34,7 @@ const setAnswer = () => {
     answer.value = splicedAnswer
     checkAnswer()
 }
+props.data.title = props.data.title.replaceAll(/img\d\.ph\.126\.net/g, 'img-ph-mirror.nosdn.127.net')
 </script>
 
 <template>

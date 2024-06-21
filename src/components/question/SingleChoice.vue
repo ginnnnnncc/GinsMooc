@@ -23,6 +23,10 @@ const checkedColor = (option: option) => {
     return option.answer ? "var(--el-color-success-light-8)" : "var(--el-color-error-light-8)"
 }
 const setAnswer = () => (isChecked.value = answer)
+props.data.title = props.data.title.replaceAll(/img\d\.ph\.126\.net/g, 'img-ph-mirror.nosdn.127.net')
+props.data.optionList?.forEach((item) => {
+    item.content = item.content.replaceAll(/img\d\.ph\.126\.net/g, 'img-ph-mirror.nosdn.127.net')
+})
 </script>
 
 <template>

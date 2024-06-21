@@ -38,7 +38,7 @@ const loadData = async (tid: number | string = props.tid) => {
         props.updateCurrentCourse(course)
     }
     questionList.forEach((value, index) => {
-        const order = (nextPage - 1) * 30 + index + 1
+        const order = (nextPage - 1) * 20 + index + 1
         all.value.push({ data: value, order: order })
         if (leftLength <= rightLength) {
             leftLength += value.toString().length

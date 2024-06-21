@@ -8,7 +8,14 @@ import { CourseCard } from "@/components"
 import { sleep } from "@/plugins/tool"
 import { useDark } from "@vueuse/core"
 import router from "@/router"
-import { ElScrollbar } from 'element-plus'
+import { ElMessage, ElScrollbar } from 'element-plus'
+import axios from "axios"
+
+const checkExist = async () => {
+    let total_page
+    let data: course[] = (await apiAccess("getCourseList", { page: 0 }, undefined)).data.courseList
+
+}
 
 const isDark = useDark()
 const apiAccess = useApiAccess()
@@ -36,27 +43,26 @@ const newCourseDialogLocked = ref(false)
 
 const onNewCourseIdInput = () => (newCourseId.value = newCourseId.value.replace(/[^0-9]/g, ""))
 const onNewCourseClick = async () => {
-    let status
     newCourseDialogLocked.value = true
-    while (true) {
-        const res = await apiAccess("addCourse", { cid: newCourseId.value }, undefined)
-        status = res.status
-        const state = res.data
-        if (state) {
+    const eventSource = new EventSource(`https://ginnnnnn.top/api/mooc/course/refresh/${newCourseId.value}`)
+    eventSource.onmessage = (event) => {
+        console.log(event.data)
+        const state = JSON.parse(event.data)
+        if (state && state.total > 0) {
             newCourseState.value = Math.round((state.finished / state.total) * 100)
         }
-        if (newCourseState.value === 100) {
-            break
+        if (newCourseState.value === 100 || state.status !== undefined) {
+            eventSource.close()
+            if (state.msg) {
+                state.status === 200 ? ElMessage.success(state.msg) : ElMessage.info(state.msg);
+            }
+            newCourseDialogLocked.value = false
+            newCourseState.value = -1
+            newCourseId.value = ""
+            newCourseDialogVisible.value = false
+            refresh.value = true
+            loadData()
         }
-        await sleep(500)
-    }
-    newCourseDialogLocked.value = false
-    newCourseState.value = -1
-    newCourseId.value = ""
-    newCourseDialogVisible.value = false
-    if (status === 200) {
-        refresh.value = true
-        loadData()
     }
 }
 const onCourseClick = (course: course) => {
@@ -94,15 +100,25 @@ const loadData = async (cid?: number, up?: boolean) => {
         scrollbarRef1.value && scrollbarRef1.value.setScrollTop(value)
         scrollbarRef2.value && scrollbarRef2.value.setScrollTop(value)
     }
-    
+
     if (cid) {
         cidCourseLoading.value = true
+    } else if (refresh.value) {
+        currentPage = [0, -1]
     }
     loading.value = true
     const res = (await apiAccess("getCourseList", cid ? { cid } : { page: up ? --currentPage[0] : ++currentPage[1], search: query.value }, undefined)).data
     loading.value = false
     if (!cid && cidCourseLoading.value) {
         return
+    }
+
+    if (cid) {
+        cidCourseLoading.value = false
+        const order = data.value.findIndex((course) => course.id === cid)
+        order !== -1 && scrollTop(order * 92)
+    } else if (refresh.value) {
+        scrollTop(0)
     }
 
     if (refresh.value) {
@@ -117,13 +133,6 @@ const loadData = async (cid?: number, up?: boolean) => {
         currentPage[1] = res.currentPage
     }
 
-    if (cid) {
-        cidCourseLoading.value = false
-        const order = data.value.findIndex((course) => course.id === cid)
-        order !== -1 && scrollTop(order * 92)
-    } else if (refresh.value) {
-        scrollTop(0)
-    }
     totalPages = res.totalPages
 }
 
@@ -133,7 +142,7 @@ const scrollCallback = (arg: { scrollLeft: number, scrollTop: number }) => {
         courseListAside = document.querySelectorAll('.course-list .el-scrollbar__view')
     }
     courseListAside.forEach((value) => {
-        if (!loading.value && currentPage[0] > 0 && value.getBoundingClientRect().top > -500) {
+        if (!query.value && !loading.value && currentPage[0] > 0 && value.getBoundingClientRect().top > -500) {
             loadData(undefined, true)
         }
     })
@@ -164,8 +173,9 @@ loadData(props.currentCourse?.id)
     </ElContainer>
     <ElDrawer v-model="drawerVisible" :show-close="false" title="课程列表" :lock-scroll="false" direction="ltr"
         class="aside-drawer" :append-to-body="true">
-        <ElScrollbar v-if="data" class="course-list" ref="scrollbarRef2">
-            <div v-infinite-scroll="loadData" :infinite-scroll-disabled="disabled()" :infinite-scroll-distance="500">
+        <ElScrollbar v-if="data" class="course-list" ref="scrollbarRef2" @scroll="scrollCallback">
+            <div v-infinite-scroll="loadData" :infinite-scroll-disabled="disabled()" :infinite-scroll-distance="500"
+                :infinite-scroll-immediate="false">
                 <CourseCard v-for="course in data" :key="course.id" :course="course"
                     :class="{ 'is-selected': currentCourse && course.id === currentCourse.id }"
                     @click="onCourseClick(course)"></CourseCard>
@@ -180,7 +190,7 @@ loadData(props.currentCourse?.id)
         </template>
     </ElDrawer>
     <ElDialog v-model="newCourseDialogVisible" :close-on-click-modal="!newCourseDialogLocked"
-        :close-on-press-escape="!newCourseDialogLocked" :show-close="!newCourseDialogLocked">
+        :close-on-press-escape="!newCourseDialogLocked" :show-close="!newCourseDialogLocked" :append-to-body="true">
         <template #header><span>添加新课程</span></template>
         <ElRow :gutter="16">
             <ElCol :span="6">

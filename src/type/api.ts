@@ -1,4 +1,4 @@
-import type { course, homework, quiz, test } from "./mooc"
+import type { course, homework, notice, quiz, test } from "./mooc"
 
 type RequestType = {
     params?: Object
@@ -32,23 +32,19 @@ export interface testDetail extends Object {
 const apiInfo = {
     getCourseList: {
         url: "/mooc/course",
-        method: "GET",
-        token: false
-    },
-    addCourse: {
-        url: "/mooc/course/:cid",
-        method: "POST",
-        token: true
+        method: "GET"
     },
     getCourseDetail: {
         url: "/mooc/course/:cid",
-        method: "GET",
-        token: false
+        method: "GET"
     },
     getTestDetail: {
         url: "/mooc/test/:tid",
-        method: "GET",
-        token: false
+        method: "GET"
+    },
+    getNotice: {
+        url: "/mooc/notice/website",
+        method: "GET"
     }
 }
 
@@ -56,12 +52,9 @@ export type ApiKeyType = keyof typeof apiInfo
 
 export interface ApiResponseType {
     getCourseList: Response<courseList>
-    addCourse: Response<{
-        finished: number
-        total: number
-    }>
     getCourseDetail: Response<courseDetail>
     getTestDetail: Response<testDetail>
+    getNotice: Response<notice>
 }
 
 export interface ApiRequestType {
@@ -72,9 +65,6 @@ export interface ApiRequestType {
             cid?: number | string
         }
     }
-    addCourse: RequestType & {
-        params: { cid: number | string }
-    }
     getCourseDetail: RequestType & {
         params: { cid: number | string }
     }
@@ -84,6 +74,9 @@ export interface ApiRequestType {
             page: number | string
             search?: string
         }
+    }
+    getNotice: RequestType & {
+        params: { version: string }
     }
 }
 

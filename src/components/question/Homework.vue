@@ -5,6 +5,8 @@ const props = defineProps<{
     data: homework
     seq: string
 }>()
+props.data.title = props.data.title.replaceAll(/img\d\.ph\.126\.net/g, 'img-ph-mirror.nosdn.127.net')
+props.data.answer = <string>props.data.answer?.replaceAll(/img\d\.ph\.126\.net/g, 'img-ph-mirror.nosdn.127.net')
 </script>
 
 <template>

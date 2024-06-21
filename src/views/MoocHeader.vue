@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import { Extension } from "@/components/icon"
+import { useApiAccess } from "@/plugins/apiAccess"
+import type { notice } from "@/type/mooc"
 
 const defaultColor = "var(--el-color-primary-dark-2)"
 const hoverColor = "var(--el-color-primary)"
@@ -10,11 +12,19 @@ const extensionDialogVisible = ref(false)
 const extensionCollapseValue = ref("1")
 
 const sizeCount = () => window.innerWidth < 768 ? 20 : 25
+
+const apiAccess = useApiAccess()
+const data = ref<notice>()
+const getNotice = async () => {
+    data.value = (await apiAccess("getNotice", { version: 'v1.0.0' }, undefined)).data
+}
+
+getNotice()
 </script>
 
 <template>
     <div class="mooc-header">
-        <div class="mooc-notice"><span class="hidden-xs-only">页面已经悄悄地适配了移动端</span></div>
+        <div class="mooc-notice"><span class="hidden-xs-only">{{ data?.content }}</span></div>
         <div class="mooc-function">
             <ElIcon :color="color[extensionBtnColor % 2]" :size="sizeCount()" @mouseenter="extensionBtnColor++"
                 @mouseleave="extensionBtnColor++" @click="extensionDialogVisible = true" style="cursor: pointer;">
@@ -31,7 +41,8 @@ const sizeCount = () => window.innerWidth < 768 ? 20 : 25
                     <li>非在线测评题的自动答案查询，包括单选题、多选题、判断题、填空题、简答题，支持测验与作业及考试</li>
                     <li>互评阶段的自动评分、自动点评</li>
                 </ul>
-                <p>下载地址：<ElLink href="/download/GinsMoocExtension_v2.0.8.zip">https://ginnnnnn.top/download/GinsMoocExtension_v2.0.8.zip
+                <p>下载地址：<ElLink href="/download/GinsMoocExtension_v2.1.0.zip">
+                        https://ginnnnnn.top/download/GinsMoocExtension_v2.1.0.zip
                     </ElLink>
                 </p>
             </ElCollapseItem>
@@ -85,7 +96,7 @@ const sizeCount = () => window.innerWidth < 768 ? 20 : 25
     .mooc-function {
         padding-right: 0;
     }
-    
+
 }
 
 .extension-image {

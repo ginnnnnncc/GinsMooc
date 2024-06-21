@@ -11,6 +11,8 @@ const memoryLimit = computed(() => {
     let memValue = props.data.memoryLimit! / 1024
     return memValue < 1024 ? `${memValue}KB` : `${memValue / 1024}MB`
 })
+props.data.title = props.data.title.replaceAll(/img\d\.ph\.126\.net/g, 'img-ph-mirror.nosdn.127.net')
+props.data.description = <string>props.data.description?.replaceAll(/img\d\.ph\.126\.net/g, 'img-ph-mirror.nosdn.127.net')
 </script>
 
 <template>

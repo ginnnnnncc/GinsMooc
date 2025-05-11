@@ -12,7 +12,7 @@ const router = createRouter({
             component: HomeView
         },
         {
-            path: "/video",
+            path: "/ginnnnnn/video",
             name: "Video",
             meta: { title: "GinsVideo" },
             component: VideoView

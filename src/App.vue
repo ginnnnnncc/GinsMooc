@@ -34,7 +34,7 @@ const githubBtnColor = ref(0)
 
                     <ElImage class="icon small hidden-sm-and-up" src="/favicon.png" @click="goIndex()"></ElImage>
                     <ElMenuItem class="menu-item small hidden-sm-and-up" index="/mooc">Mooc</ElMenuItem>
-                    <ElMenuItem class="menu-item small hidden-sm-and-up" index="/video">Video</ElMenuItem>
+                    <!-- <ElMenuItem class="menu-item small hidden-sm-and-up" index="/video">Video</ElMenuItem> -->
                 </ElMenu>
                 <div class="nav-center">
                     <RouterView name="header" />

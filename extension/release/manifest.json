@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "GinsMooc Extension",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "description": "A Chrome extension to get the mooc answers and evaluate auto automatically.",
     "icons": {
         "16": "icons/favicon16.png",
@@ -14,7 +14,7 @@
     "content_scripts": [
         {
             "matches": ["https://www.icourse163.org/*learn/*?tid=*", "https://www.icourse163.org/mooc/main/newExam*"],
-            "js": ["content-scripts/index-0a5b62af.js"],
+            "js": ["content-scripts/index-68d6334d.js"],
             "run_at": "document_end"
         }
     ]

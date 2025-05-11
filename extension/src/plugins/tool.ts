@@ -6,6 +6,18 @@ const sleep = async (ms: number) => {
     })
 }
 
+const waitFor = async (checker: any) => {
+    return new Promise((resolve) => {
+        const checkDisplay = setInterval(() => {
+            console.log('check wait for')
+            if (checker()) {
+                clearInterval(checkDisplay);
+                resolve('');
+            }
+        }, 50);
+    });
+}
+
 const getUrlParam = (key: string) => {
     const reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)')
     const result = window.location.search.substring(1).match(reg)
@@ -22,4 +34,4 @@ const randomString = (length: number) => {
     return result
 }
 
-export { sleep, getUrlParam, randomString }
+export { sleep, getUrlParam, randomString, waitFor }

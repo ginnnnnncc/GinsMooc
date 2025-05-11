@@ -1,7 +1,7 @@
 import { CustomRefList } from "./plugins/react"
 import { useApiAccess } from "./plugins/apiAccess"
 import { sleep, getUrlParam } from "./plugins/tool"
-import { getQuizQuestionKeys, setQuizAnswer, setHomeworkAnswer, autoEvaluate, autoComment } from "./plugins/mooc"
+import { getQuizQuestionKeys, setQuizAnswer, setHomeworkAnswer, autoEvaluate, batchEvaluate } from "./plugins/mooc"
 import { newExamHandle } from "./newExam"
 
 const apiAccess = useApiAccess()
@@ -36,6 +36,12 @@ styleNode.innerText = `
     input.gin-answer:not(:checked) + label, #GinsMooc, .gin-answer-item {
         background-color: #d9ecff;
     }
+    .learnPageContentLeft {
+        background: rgb(240, 242, 245);
+    }
+    #GinsMooc {
+        margin-bottom: 12px !important;
+    }
     .gin-function {
         display: flex;
         align-items: center;
@@ -54,8 +60,14 @@ wrapperNode.id = "GinsMooc"
 wrapperNode.classList.add("m-learnbox")
 document.querySelector(".learnPageContentLeft")?.prepend(wrapperNode)
 
+if (location.href.indexOf("/spoc") !== -1) {
+    const spocTipsNode = document.createElement("div")
+    spocTipsNode.innerHTML = "当前课程为 SPOC 课程，可能无法获取答案。SPOC 课程可能会有关联的对外课程，你可以尝试搜索并加入，题目大概率是一样的"
+    wrapperNode.prepend()
+}
+
 const setNotice = async () => {
-    const notice = (await apiAccess("getNotice", { version: "v2.1.0" }, undefined)).data
+    const notice = (await apiAccess("getNotice", { version: "v2.2.0" }, undefined)).data
     console.log(notice)
     if (
         !localStorage
@@ -92,15 +104,27 @@ functionNode.append(getAnswerBtn)
 
 const evaluateBtn = document.createElement("button")
 evaluateBtn.classList.add("u-btn", "u-btn-default", "f-dn")
-evaluateBtn.onclick = autoEvaluate
-evaluateBtn.innerText = "一键评分"
+evaluateBtn.onclick = () => {
+    autoEvaluate()
+    window.scroll({ top: document.documentElement.scrollHeight, behavior: "smooth" })
+}
+evaluateBtn.innerText = "一键互评"
 functionNode.append(evaluateBtn)
 
-const commentBtn = document.createElement("button")
-commentBtn.classList.add("u-btn", "u-btn-default", "f-dn")
-commentBtn.onclick = autoComment
-commentBtn.innerText = "一键点评"
-functionNode.append(commentBtn)
+const batchEvaluateBtn = document.createElement("button")
+batchEvaluateBtn.classList.add("u-btn", "u-btn-default", "f-dn")
+batchEvaluateBtn.onclick = () => {
+    batchEvaluate(5, (finish: number, total: number) => {
+        if (finish >= total) {
+            stateTips.innerText = `已完成 ${total} 次互评`
+        } else {
+            stateTips.innerText = `自动互评中（${finish} / ${total}）`
+        }
+    })
+}
+batchEvaluateBtn.innerText = "自动互评"
+functionNode.append(batchEvaluateBtn)
+
 
 const stateTips = document.createElement("div")
 stateTips.classList.add("gin-state-tips")
@@ -117,7 +141,7 @@ window.addEventListener("hashchange", () => {
     }
 })
 
-document.getElementById("courseLearn-inner-box")?.addEventListener("DOMNodeInserted", () => {
+window.setInterval(() => {
     examlist.set(location.hash.indexOf("examlist") !== -1)
     const prepareNode = document.querySelector(".j-prepare.prepare")
     prepare.set(
@@ -126,7 +150,7 @@ document.getElementById("courseLearn-inner-box")?.addEventListener("DOMNodeInser
             examlist.get()
     )
     analysis.set(document.querySelector(".u-questionItem.u-analysisQuestion.analysisMode") !== null)
-})
+}, 100);
 
 const onTestChange = async () => {
     console.log("onTestChange", testType.get(), prepare.get(), examlist.get(), testId)
@@ -168,10 +192,10 @@ const onModeChange = () => {
     console.log("onModeChange", analysis.get())
     if (analysis.get()) {
         evaluateBtn.classList.remove("f-dn")
-        commentBtn.classList.remove("f-dn")
+        batchEvaluateBtn.classList.remove("f-dn")
     } else {
         evaluateBtn.classList.add("f-dn")
-        commentBtn.classList.add("f-dn")
+        batchEvaluateBtn.classList.add("f-dn")
     }
 }
 

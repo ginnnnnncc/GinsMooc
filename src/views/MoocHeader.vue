@@ -41,8 +41,8 @@ getNotice()
                     <li>非在线测评题的自动答案查询，包括单选题、多选题、判断题、填空题、简答题，支持测验与作业及考试</li>
                     <li>互评阶段的自动评分、自动点评</li>
                 </ul>
-                <p>下载地址：<ElLink href="/download/GinsMoocExtension_v2.1.0.zip">
-                        https://ginnnnnn.top/download/GinsMoocExtension_v2.1.0.zip
+                <p>下载地址：<ElLink href="/download/GinsMoocExtension_v2.2.0.zip">
+                        https://ginnnnnn.top/download/GinsMoocExtension_v2.2.0.zip
                     </ElLink>
                 </p>
             </ElCollapseItem>

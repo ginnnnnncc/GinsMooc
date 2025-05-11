@@ -1,5 +1,5 @@
 import type { quiz, option } from "../type/mooc"
-import { sleep } from "./tool"
+import { sleep, waitFor } from "./tool"
 
 const getQuizQuestionKeys = () => {
     const [oidList, titleList] = [new Array<number>(), new Array<string>()]
@@ -51,8 +51,8 @@ const setHomeworkAnswer = (homeworkAns: Object) => {
     const homeworks = document.getElementsByClassName("f-richEditorText j-richTxt f-fl")
     for (let i = 0; i < homeworks.length; i++) {
         const answerNode = document.createElement("div")
+        answerNode.classList.add('gin-answer-item')
         answerNode.innerHTML = Reflect.get(homeworkAns, `${i}`)?.answer as string
-        answerNode.prepend("参考答案：")
         homeworks.item(i)?.append(answerNode)
     }
 }
@@ -65,17 +65,25 @@ const autoEvaluate = () => {
             const radio = radioGroup.item(j)?.lastElementChild?.querySelector("input") as HTMLInputElement
             radio.checked = true
         }
-    }
-}
-
-const autoComment = () => {
-    const analysis = document.getElementsByClassName("u-questionItem u-analysisQuestion analysisMode")
-    for (let i = 0; i < analysis.length; i++) {
-        sleep(50)
         const textarea = analysis.item(i)?.querySelector("textarea") as HTMLTextAreaElement
         textarea.value = "666"
     }
-    window.scroll({ top: document.documentElement.scrollHeight, behavior: "smooth" })
 }
 
-export { getQuizQuestionKeys, setHomeworkAnswer, setQuizAnswer, autoEvaluate, autoComment }
+const batchEvaluate = async (times: number, updateCaller: (finish: number, total: number) => any) => {
+    const submitBtn = document.querySelector(".u-homework-evaAction .bottombtnwrap .j-submitbtn") as HTMLDivElement
+    const xlinfo = document.querySelector(".u-homework-evaAction .xlinfo") as HTMLDivElement
+    const nextBtn = document.querySelector(".u-homework-evaAction .xlinfo .j-gotonext") as HTMLDivElement
+    for (let i = 0; i < times; i++) {
+        await waitFor(() => xlinfo.style.display === 'none')
+        autoEvaluate()
+        await sleep(1000)
+        console.log(new Date())
+        submitBtn.click()
+        await waitFor(() => xlinfo.style.display !== 'none')
+        updateCaller(i + 1, times)
+        nextBtn.click()
+    }
+}
+
+export { getQuizQuestionKeys, setHomeworkAnswer, setQuizAnswer, autoEvaluate, batchEvaluate }

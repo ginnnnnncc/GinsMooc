@@ -22,7 +22,6 @@ const getAnswer = async () => {
     stateTips.innerText = "正在获取答案，请稍后..."
     if (testType.get() === "quiz") {
         const answers = await apiAccess("selectQustion", { tid: testId as string }, getQuizQuestionKeys())
-        console.log(answers)
         setQuizAnswer(answers.data.choiceAns as number[], answers.data.completionAns as Object)
     } else if (testType.get() === "homework") {
         const answers = await apiAccess("selectQustion", { tid: testId as string }, {})
@@ -67,7 +66,7 @@ if (location.href.indexOf("/spoc") !== -1) {
 }
 
 const setNotice = async () => {
-    const notice = (await apiAccess("getNotice", { version: "v2.2.0" }, undefined)).data
+    const notice = (await apiAccess("getNotice", { version: "v2.2.1" }, undefined)).data
     console.log(notice)
     if (
         !localStorage

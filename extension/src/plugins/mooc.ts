@@ -18,9 +18,11 @@ const getQuizQuestionKeys = () => {
 }
 
 const setQuizAnswer = (choiceAns: number[], completionAns: Object) => {
-    for (const id of choiceAns) {
-        const node = document.querySelector(`input[id*="_${id}"]`) as HTMLInputElement
-        node.classList.add("gin-answer")
+    if (choiceAns) {
+        for (const id of choiceAns) {
+            const node = document.querySelector(`input[id*="_${id}"]`) as HTMLInputElement
+            node.classList.add("gin-answer")
+        }
     }
     const completions = document.getElementsByClassName("m-FillBlank examMode u-questionItem")
     for (let i = 0; i < completions.length; i++) {

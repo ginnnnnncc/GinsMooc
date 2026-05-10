@@ -46,3 +46,13 @@
 点击“加载解压缩的扩展”，选择刚刚解压到的文件夹，即可开始使用
 
 ![](/public/extension-load-decompression.png)
+
+## Star History
+
+<a href="https://www.star-history.com/?repos=ginnnnnncc%2FGinsMooc&type=date&legend=top-left">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=ginnnnnncc/GinsMooc&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=ginnnnnncc/GinsMooc&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=ginnnnnncc/GinsMooc&type=date&legend=top-left" />
+ </picture>
+</a>

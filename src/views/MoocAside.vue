@@ -36,7 +36,7 @@ const hoverColor = "var(--el-color-primary)"
 const color = [defaultColor, hoverColor]
 
 const newCourseId = ref("")
-const newCourseState = ref(-1)
+const newCourseState = ref(0)
 const newCourseBtnColor = ref(0)
 const newCourseDialogVisible = ref(false)
 const newCourseDialogLocked = ref(false)
@@ -44,9 +44,9 @@ const newCourseDialogLocked = ref(false)
 const onNewCourseIdInput = () => (newCourseId.value = newCourseId.value.replace(/[^0-9]/g, ""))
 const onNewCourseClick = async () => {
     newCourseDialogLocked.value = true
-    const eventSource = new EventSource(`https://ginnnnnn.top/api/mooc/course/refresh/${newCourseId.value}`)
-    eventSource.onmessage = (event) => {
-        console.log(event.data)
+  const eventSource = new EventSource(`https://ginnnnnn.top/api/mooc/course/refresh/${newCourseId.value}`)
+  eventSource.onmessage = (event) => {
+    console.log(event.data)
         const state = JSON.parse(event.data)
         if (state && state.total > 0) {
             newCourseState.value = Math.round((state.finished / state.total) * 100)
@@ -57,7 +57,7 @@ const onNewCourseClick = async () => {
                 state.status === 200 ? ElMessage.success(state.msg) : ElMessage.info(state.msg);
             }
             newCourseDialogLocked.value = false
-            newCourseState.value = -1
+            newCourseState.value = 0
             newCourseId.value = ""
             newCourseDialogVisible.value = false
             refresh.value = true
@@ -194,7 +194,7 @@ loadData(props.currentCourse?.id)
         <template #header><span>添加新课程</span></template>
         <ElRow :gutter="16">
             <ElCol :span="6">
-                <ElInput v-model="newCourseId" placeholder="在此输入课程id" maxlength="10" @input="onNewCourseIdInput"
+                <ElInput v-model="newCourseId" placeholder="在此输入课程id" @input="onNewCourseIdInput"
                     :disabled="newCourseDialogLocked"></ElInput>
             </ElCol>
             <ElCol :span="2">
@@ -206,6 +206,7 @@ loadData(props.currentCourse?.id)
             </ElCol>
         </ElRow>
         <ElImage src="/new-course-help.png" style="margin-top: 8px; box-shadow: var(--el-box-shadow-light)"></ElImage>
+        <div>大部分 SPOC 课程都不支持，这取决于该课程是否向外公开。SPOC 课程的地址会带有 spoc 字样，如 https://www.icourse163.org/spoc/learn/XXX-1234567890?tid=1234567890#/learn/announce</div>
     </ElDialog>
 </template>
 

@@ -51,18 +51,59 @@ styleNode.innerText = `
     .gin-state-tips {
         font-size: 14px;
     }
+    #GinsMooc .f-dn {
+        display: none;
+    }
+    #GinsMooc.gin-newui {
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 20px;
+        color: #39433e;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    #GinsMooc.gin-newui .u-btn {
+        margin-right: 16px;
+        padding: 6px 16px;
+        border: 1px solid #d9e5e0;
+        border-radius: 8px;
+        background-color: #f2f7f5;
+        color: #39433e;
+        font-size: 14px;
+        line-height: 20px;
+        cursor: pointer;
+    }
+    #GinsMooc.gin-newui .u-btn:hover {
+        background-color: #e5f0eb;
+    }
 `
 document.head.append(styleNode)
 
 const wrapperNode = document.createElement("div")
 wrapperNode.id = "GinsMooc"
-wrapperNode.classList.add("m-learnbox")
-document.querySelector(".learnPageContentLeft")?.prepend(wrapperNode)
+
+// 旧版页面与新版(/mooc/learn)页面的内容容器不同，且均为异步渲染，未就绪时由下方的定时器重试注入
+const injectWrapper = () => {
+    const legacyContainer = document.querySelector(".learnPageContentLeft")
+    if (legacyContainer) {
+        wrapperNode.classList.add("m-learnbox")
+        legacyContainer.prepend(wrapperNode)
+        return
+    }
+    const newContainer =
+        document.querySelector(".learn-assessment-shell") || document.querySelector("main#learn-main-content")
+    if (newContainer) {
+        wrapperNode.classList.add("gin-newui")
+        newContainer.prepend(wrapperNode)
+    }
+}
+injectWrapper()
 
 if (location.href.indexOf("/spoc") !== -1) {
     const spocTipsNode = document.createElement("div")
     spocTipsNode.innerHTML = "当前课程为 SPOC 课程，可能无法获取答案。SPOC 课程可能会有关联的对外课程，你可以尝试搜索并加入，题目大概率是一样的"
-    wrapperNode.prepend()
+    wrapperNode.prepend(spocTipsNode)
 }
 
 const setNotice = async () => {
@@ -129,7 +170,7 @@ const stateTips = document.createElement("div")
 stateTips.classList.add("gin-state-tips")
 functionNode.append(stateTips)
 
-window.addEventListener("hashchange", () => {
+const updateTestRoute = () => {
     testId = getUrlParam("id")
     if (location.hash.indexOf("quiz") !== -1 || location.hash.indexOf("examObject") !== -1) {
         testType.set("quiz")
@@ -138,9 +179,15 @@ window.addEventListener("hashchange", () => {
     } else {
         testType.set(undefined)
     }
-})
+}
+// 新版课程页的测验/作业链接会在新标签页直接打开，此时不会触发 hashchange，需要在启动时识别一次
+updateTestRoute()
+window.addEventListener("hashchange", updateTestRoute)
 
 window.setInterval(() => {
+    if (!wrapperNode.isConnected) {
+        injectWrapper()
+    }
     examlist.set(location.hash.indexOf("examlist") !== -1)
     const prepareNode = document.querySelector(".j-prepare.prepare")
     prepare.set(
